@@ -3,7 +3,12 @@
 import cv2
 from feature_extractor import FeatureExtractor
 import glob
-import sys
+
+import os,sys,inspect
+current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+grand_parent_dir = os.path.dirname(os.path.dirname(current_dir))
+sys.path.insert(0, grand_parent_dir)
+import get_path
 
 #######################################################################################################################
 # Function get_images_paths(image_directory = "./images/", file_extensions = (".png", ".jpg"))
@@ -22,13 +27,11 @@ import sys
 # Output argument:
 #   - [list] image_paths: list of image paths (strings)
 #######################################################################################################################
-def get_images_paths(image_directory = "C:\\Users\\kvkue\\Pictures\\MDStestdata\\ImageCLEFmed2007_test\\", file_extensions = (".png", ".jpg")):
+def get_images_paths(image_directory = get_path.ImageCLEFmed2007(), file_extensions = ["*.png", "*.jpg"]):
     image_paths = []
 
     for ending in file_extensions:
-        pathName = image_directory + "*" + ending
-        # test directory
-        # pathName = "C:/Users/kvkue/Pictures/MDStestdata/*" + ending
+        pathName = os.path.join(image_directory, ending)
         image_paths.extend(glob.glob(pathName))
     
     return image_paths

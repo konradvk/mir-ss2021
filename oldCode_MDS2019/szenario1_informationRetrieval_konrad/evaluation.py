@@ -1,11 +1,15 @@
 from preprocessing import get_images_paths
 from query import Query
 import cv2
-import sys
 import numpy as np
 from pathlib import Path
 import csv
-import os
+
+import os,sys,inspect
+current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+grand_parent_dir = os.path.dirname(os.path.dirname(current_dir))
+sys.path.insert(0, grand_parent_dir)
+import get_path
 
 
 code_path = "codes.csv"
@@ -121,7 +125,7 @@ def amount_relevant_images(query_image_code):
 #######################################################################################################################
 def mean_average_precision(limit = 20):
     # get image paths of all  images
-    image_paths = get_images_paths(image_directory = "C:/Users/kvkue/Pictures/MDStestdata/ImageCLEFmed2007_test/*", file_extensions = (".png"))
+    image_paths = get_images_paths(image_directory = get_path.ImageCLEFmed2007(), file_extensions = ["*.png"])
     # retrieve amount of images
     # average_precision(correct_prediction_list, amount_relevant)
     # amount_relevant_images(imageCode)

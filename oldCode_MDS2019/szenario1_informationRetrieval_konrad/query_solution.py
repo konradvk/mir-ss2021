@@ -6,12 +6,17 @@ from feature_extractor import FeatureExtractor
 from searcher_solution import Searcher
 import easygui
 from pathlib import Path
-import os
 import csv
 
 import evaluation
 
 from pdb import set_trace as st
+
+import os,sys,inspect
+current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+grand_parent_dir = os.path.dirname(os.path.dirname(current_dir))
+sys.path.insert(0, grand_parent_dir)
+import get_path
 
 #######################################################################################################################
 # Function get_filename_from_path(self, path_to_file, file_ending = '.png'):
@@ -37,7 +42,7 @@ def get_filename_from_path(path_to_file, file_ending = '.png'):
 class Query:
     output_name = "index.csv"
     code_path = "codes.csv"
-    image_directory = r".\\images\\*"
+    image_directory = get_path.ImageCLEFmed2007()
     
     #######################################################################################################################
 	# Function __init__(self, query_image_name = None):
