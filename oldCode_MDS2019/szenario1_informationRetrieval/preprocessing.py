@@ -22,7 +22,7 @@ import sys
 # Output argument:
 #   - [list] image_paths: list of image paths (strings)
 #######################################################################################################################
-def get_images_paths(image_directory = "/Users/falcolentzsch/Develope/ImageCLEFmed2007_test/", file_extensions = (".png", ".jpg")):
+def get_images_paths(image_directory = "/Users/jessekruse/Uni_Code/Master/Master_S2/MIR/ImageCLEFmed2007_test/", file_extensions = (".png", ".jpg")):
     image_paths = []
     for e in file_extensions:
         image_paths.extend(glob.glob(image_directory + "*" + e))
@@ -49,7 +49,7 @@ def create_feature_list(image_paths):
     feature_list = []
     for i in image_paths:
         
-        feature_list.append(feature_extractor.extract(cv2.imread(i,cv2.IMREAD_GRAYSCALE)))
+        feature_list.append(feature_extractor.extract(cv2.imread(i, cv2.IMREAD_GRAYSCALE)))
         
     return feature_list
 
@@ -92,6 +92,6 @@ def write_to_file(feature_list, image_paths, output_name = "index.csv"):
 if __name__ == '__main__':
     image_paths = get_images_paths()
 
-    features  = create_feature_list(image_paths)
+    features = create_feature_list(image_paths)
 
     write_to_file(features, image_paths)

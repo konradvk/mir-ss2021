@@ -35,9 +35,9 @@ def get_filename_from_path(path_to_file, file_ending = '.png'):
     return filename
 
 class Query:
-    output_name = "/Users/falcolentzsch/GoogleDrive/Studium MI/Semester 5/Medical Datascience/Übungen/Aufgabenblatt 1/index.csv"
-    code_path = "codes.csv"
-    image_directory = "/Users/falcolentzsch/Develope/ImageCLEFmed2007_test"
+    output_name = "/Users/jessekruse/Uni_Code/Master/Master_S2/MIR/mir-ss2021/oldCode_MDS2019/szenario1_informationRetrieval/index.csv"
+    code_path = "/Users/jessekruse/Uni_Code/Master/Master_S2/MIR/mir-ss2021/oldCode_MDS2019/szenario1_informationRetrieval/codes.csv"
+    image_directory = "/Users/jessekruse/Uni_Code/Master/Master_S2/MIR/ImageCLEFmed2007_test"
     
     #######################################################################################################################
 	# Function __init__(self, query_image_name = None):
