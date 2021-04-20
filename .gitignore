@@ -504,3 +504,6 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+
+# For Falco
+.DS_Store
