@@ -240,6 +240,72 @@ class Query:
 
 
 
+    def relevance_feedback(self, selected_images, not_selected_images, limit):
+        """
+        Function to start a relevance feedback query.
+        Parameters
+        ----------
+        selected_images : list
+            List of selected images.
+        not_selected_images : list
+            List of not selected images.
+        limit : int
+            Amount of results that will be retrieved. Default: 10.
+        Returns
+        -------
+        - results : list
+            List with the 'limit' first elements of the 'results' list. 
+        """
+
+        # get relavent and non_revant feature vectors
+
+        # rocchio
+
+        # run new query
+
+        # update the current features , so repeated "relavance feedback" has an effect
+
+        # return our (limited) results
+
+    def get_feature_vector(self, image_names):
+        """
+        Function to get features from 'index' file for given image names.
+        Parameters
+        ----------
+        image_names : list
+            List of images names.
+        Returns
+        -------
+        - features : list
+            List with of features.
+        """
+
+            
+    def rocchio(original_query, relevant, non_relevant, a = 1, b = 0.8, c = 0.1):
+        """
+        Function to adapt features with rocchio approach.
+
+        Parameters
+        ----------
+        original_query : list
+            Features of the original query.
+        relevant : list
+            Features of the relevant images.
+        non_relevant : list
+            Features of the non relevant images.
+        a : int
+            Rocchio parameter.
+        b : int
+            Rocchio parameter.
+        c : int
+            Rocchio parameter.
+        Returns
+        -------
+        - features : list
+            List with of features.
+        """
+
+
 if __name__ == "__main__":
     while(True):
         query = Query()
