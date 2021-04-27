@@ -507,3 +507,9 @@ fabric.properties
 
 # For Falco
 .DS_Store
+
+# everyone's individual paths
+get_path.py
+
+# ignore index file
+/scenario_1/index.csv
