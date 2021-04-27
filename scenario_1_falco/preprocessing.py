@@ -5,6 +5,7 @@ from feature_extractor import FeatureExtractor
 import glob
 import sys
 from pathlib import Path
+import os
 
 #######################################################################################################################
 # Function get_images_paths(image_directory = "./images/", file_extensions = (".png", ".jpg"))
@@ -23,13 +24,11 @@ from pathlib import Path
 # Output argument:
 #   - [list] image_paths: list of image paths (strings)
 #######################################################################################################################
-def get_images_paths(image_directory = Path("../../dataset/test/"), file_extensions = (".png", ".jpg")):
-    
-
+def get_images_paths(image_directory = Path("../../dataset/test/"), file_extensions = ["*.png", "*.jpg"]):
     image_paths = []
-    for e in file_extensions:
-        file_to_open = str(image_directory / "*")
-        image_paths.extend(glob.glob(file_to_open + e)) 
+    for ending in file_extensions:
+        full_path = os.path.join(image_directory, ending)
+        image_paths.extend(glob.glob(full_path)) 
     return image_paths
 
 #######################################################################################################################
@@ -50,10 +49,11 @@ def get_images_paths(image_directory = Path("../../dataset/test/"), file_extensi
 def create_feature_list(image_paths):
     feature_extractor = FeatureExtractor()
     feature_list = []
-    for i in image_paths:
-        
-        feature_list.append(feature_extractor.extract(cv2.imread(i,cv2.IMREAD_GRAYSCALE)))
-        
+
+    for i, path in enumerate(image_paths):
+        feature_list.append(feature_extractor.extract(cv2.imread(path,cv2.IMREAD_GRAYSCALE)))
+        print(str(i+1) + " / " + str(len(image_paths)))
+
     return feature_list
 
 #######################################################################################################################
@@ -78,15 +78,14 @@ def create_feature_list(image_paths):
 #######################################################################################################################
 def write_to_file(feature_list, image_paths, output_name = "index.csv"):
     
-    output = open(output_name, "w+")
     assert len(feature_list) == len(image_paths)
+    output = open(output_name, "w+")
 
-    for i in range(0,len(features)):
+    for i in range(0,len(feature_list)):
         output.write(image_paths[i])
-        for j in range(0,len(features[i])):
-            output.write("," + str(features[i][j]))
+        for j in range(0,len(feature_list[i])):
+            output.write("," + str(feature_list[i][j]))
         output.write('\n')
-
 
     output.close()
 
