@@ -29,15 +29,14 @@ code_path = "codes.csv"
 def precision_at_k(correct_prediction_list, k = None):
     if (k == None):
         k = len(correct_prediction_list)
-    elif (k > len(correct_prediction_list)):
-        print("Error!")
+    elif (k < 0 | k > len(correct_prediction_list)):
+        print("k is greater than the length of the prediction list or negative")
         pass
     
-
     counter = 0
 
     for i in range(0, k):
-        if (correct_prediction_list[i] == True):
+        if correct_prediction_list[i]:
             counter += 1
     
     average_precision = float(counter/k)
@@ -90,21 +89,18 @@ def average_precision(correct_prediction_list, amount_relevant):
 def amount_relevant_images(query_image_code): 
 
     if not Path(code_path).exists(): 
-        print("Error")
+        print("The file in code_path does not exist")
         return False
 
-    else:
+    with open(code_path) as f:
+        reader = csv.reader(f)
+        amount = 0
 
-        with open(code_path) as f:
-            reader = csv.reader(f)
-
-            amount = 0
-
-            for row in reader:
-                if row[1] == query_image_code:
-                    amount += 1
-
-        return amount
+        for row in reader:
+            if row[1] == query_image_code:
+                amount += 1
+    f.close()
+    return amount
 
 
 
@@ -133,32 +129,29 @@ def mean_average_precision(limit = 20):
 
     # get image paths of all  images
     # ImageCLEFmed2007_test
-    image_paths = get_images_paths(image_directory = "/Users/falcolentzsch/Develope/test/*", file_extensions = (".png"))
+    image_paths = get_images_paths(image_directory = Path("../../dataset/test/"), file_extensions = ["*.png"])
 
     res_dic = {}
     average = 0.0
 
-    for e in image_paths:
-        query = Query(e)
+    for i,path in enumerate(image_paths):
+        if(i == limit):
+            break
+
+        query = Query(path)
         query_result = query.run()
         res_dic = query.check_code(query_result)
 
         true_list = list(res_dic.values())
+        true_list.remove(0)
 
         amount = amount_relevant_images(query.query_image_code)
 
         average += average_precision(true_list,amount)
     
-    return (average/20)
+    return (average/limit)
 
 
-        
-
-        
-
-
-
-    
 
 
 if __name__ == "__main__":
