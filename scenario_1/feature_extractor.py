@@ -175,22 +175,3 @@ class FeatureExtractor:
 		features = [item for sublist in features for item in sublist]
 		# return 
 		return features
-
-
-if __name__ == '__main__':
-	# Read the test image
-	# TODO change image path to a valid one
-	example_image = cv2.imread("/Users/falcolentzsch/Develope/ImageCLEFmed2007_test/3145.png", cv2.IMREAD_GRAYSCALE)
-
-	# Assert image read was successful
-	assert example_image is not None
-
-	# create extractor
-	feature_extractor = FeatureExtractor()
-
-	# describe the image
-	features = feature_extractor.extract(example_image)
-
-	# print the features
-	print("Features: ", features)
-	print("Length: ", len(features))

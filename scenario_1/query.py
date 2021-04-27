@@ -35,9 +35,9 @@ def get_filename_from_path(path_to_file, file_ending = '.png'):
     return filename
 
 class Query:
-    output_name = "/Users/falcolentzsch/GoogleDrive/Studium MI/Semester 5/Medical Datascience/Übungen/Aufgabenblatt 1/index.csv"
+    output_name = "index.csv"
     code_path = "codes.csv"
-    image_directory = "/Users/falcolentzsch/Develope/ImageCLEFmed2007_test"
+    image_directory = str(Path("../../dataset/test/"))
     
     #######################################################################################################################
 	# Function __init__(self, query_image_name = None):
@@ -238,6 +238,72 @@ class Query:
         cv2.waitKey(0)
         cv2.destroyWindow("Query result")
 
+
+
+    def relevance_feedback(self, selected_images, not_selected_images, limit):
+        """
+        Function to start a relevance feedback query.
+        Parameters
+        ----------
+        selected_images : list
+            List of selected images.
+        not_selected_images : list
+            List of not selected images.
+        limit : int
+            Amount of results that will be retrieved. Default: 10.
+        Returns
+        -------
+        - results : list
+            List with the 'limit' first elements of the 'results' list. 
+        """
+
+        # get relavent and non_revant feature vectors
+
+        # rocchio
+
+        # run new query
+
+        # update the current features , so repeated "relavance feedback" has an effect
+
+        # return our (limited) results
+
+    def get_feature_vector(self, image_names):
+        """
+        Function to get features from 'index' file for given image names.
+        Parameters
+        ----------
+        image_names : list
+            List of images names.
+        Returns
+        -------
+        - features : list
+            List with of features.
+        """
+
+            
+    def rocchio(original_query, relevant, non_relevant, a = 1, b = 0.8, c = 0.1):
+        """
+        Function to adapt features with rocchio approach.
+
+        Parameters
+        ----------
+        original_query : list
+            Features of the original query.
+        relevant : list
+            Features of the relevant images.
+        non_relevant : list
+            Features of the non relevant images.
+        a : int
+            Rocchio parameter.
+        b : int
+            Rocchio parameter.
+        c : int
+            Rocchio parameter.
+        Returns
+        -------
+        - features : list
+            List with of features.
+        """
 
 
 if __name__ == "__main__":
