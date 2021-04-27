@@ -2,6 +2,12 @@
 # import the necessary packages
 import numpy as np
 import cv2
+
+import os,sys,inspect
+current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+grand_parent_dir = os.path.dirname(os.path.dirname(current_dir))
+sys.path.insert(0, grand_parent_dir)
+import get_path
  
 class FeatureExtractor: 
 	#######################################################################################################################
@@ -145,7 +151,7 @@ class FeatureExtractor:
 if __name__ == '__main__':
 	# Read the test image
 	# TODO change image path to a valid one
-	example_image = cv2.imread("C:/Users/kvkue/Pictures/MDStestdata/ImageCLEFmed2007_test/3145.png", cv2.IMREAD_GRAYSCALE)
+	example_image = cv2.imread( +"3145.png", cv2.IMREAD_GRAYSCALE)
 	# example_image = cv2.imread("C:/Users/kvkue/Pictures/MDStestdata/white.png", cv2.IMREAD_GRAYSCALE)
 	# example_image = cv2.imread("C:/Users/kvkue/Dropbox/B.Sc Med Inf/Medical Data Science/feature_extractor/dog.jpg", cv2.IMREAD_GRAYSCALE)
 

@@ -6,8 +6,13 @@ from searcher import Searcher
 import easygui
 from pathlib import Path
 import csv
-import os
 from pdb import set_trace as st
+
+import os,sys,inspect
+current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+grand_parent_dir = os.path.dirname(os.path.dirname(current_dir))
+sys.path.insert(0, grand_parent_dir)
+import get_path
 
 #######################################################################################################################
 # Function get_filename_from_path(self, path_to_file, file_ending = '.png'):
@@ -34,7 +39,7 @@ class Query:
     # TODO change:
     output_name = "index.csv"
     code_path = "codes.csv"
-    image_directory = "C:/Users/kvkue/Pictures/MDStestdata/ImageCLEFmed2007_test/*"
+    image_directory = get_path.ImageCLEFmed2007()
     
     #######################################################################################################################
 	# Function __init__(self, query_image_name = None):
@@ -186,7 +191,7 @@ class Query:
 	#######################################################################################################################
     def visualize_result(self, query_result, correct_prediction_dictionary, image_size = (100,100)):
         
-        query_image = cv2.imread(self.query_image_name, cv2.IMREAD_COLOR)
+        query_image = cv2.imread(self.query_image_name)
         result_image = cv2.resize(query_image, image_size)
 
         #colors
@@ -200,9 +205,10 @@ class Query:
             current_Im = cv2.resize(current_Im, image_size)
             if retr_image_name in correct_prediction_dictionary:
                 if correct_prediction_dictionary[retr_image_name]:
-                    cv2.copyMakeBorder(current_Im, 10 , 10, 10, 10, cv2.BORDER_CONSTANT, current_Im, value=green)
+                    currentIm = cv2.copyMakeBorder(current_Im, 10 , 10, 10, 10, cv2.BORDER_CONSTANT, value=green)
                 else:
-                    cv2.copyMakeBorder(current_Im, 10 , 10, 10, 10, cv2.BORDER_CONSTANT, current_Im, value=red)
+                    currentIm = cv2.copyMakeBorder(current_Im, 10 , 10, 10, 10, cv2.BORDER_CONSTANT, value=red)
+            
             result_image = np.concatenate((result_image, current_Im), axis=1)
 
                     
