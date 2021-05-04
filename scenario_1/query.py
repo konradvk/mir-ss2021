@@ -257,7 +257,7 @@ class Query:
             List with the 'limit' first elements of the 'results' list. 
         """
 
-        # get relavent and non_revant feature vectors
+        # get relevant and non_revant feature vectors
         features_relevant = self.get_feature_vector(selected_images)
         features_not_relevant = self.get_feature_vector(not_selected_images)
 
@@ -271,7 +271,6 @@ class Query:
         # run new query
         # return our (limited) results
         return self.run()
-
 
 
     def get_feature_vector(self, image_names):
@@ -304,7 +303,6 @@ class Query:
         return [all_feature_dict[x] for x in image_names]
 
 
-            
     def rocchio(self, original_query, relevant, non_relevant, a = 1, b = 0.8, c = 0.1):
         """
         Function to adapt features with rocchio approach.
@@ -326,41 +324,17 @@ class Query:
         Returns
         -------
         - features : list
-            List with of features.
+            List with (new query) features.
         """
+        # Compute the mean vector from list of vectors
+        relevant_mean = np.mean(relevant, axis=0)
+        non_relevant_mean = np.mean(non_relevant, axis=0)
+
+        # Rocchio parameters
+        new_query = (a * original_query) + (b * relevant_mean) - (c * non_relevant_mean)
         
-        # Calculate he three parts of the rocchio algorithm 
-        orig = [a*x for x in original_query]
-        dr = self.rocchio_subcalc(0.8, relevant)
-        dnr = self.rocchio_subcalc(0.1, non_relevant)
+        return new_query
 
-        # Perform element-wise addiion for modified relevant documen vector and element-wise substraction for not relevant document vector
-        new_rocchio_features = [(orig_i + dr_i - dnr_i) for orig_i, dr_i, dnr_i in zip(orig, dr, dnr)]
-
-        return new_rocchio_features
-
-    def rocchio_subcalc(self, factor, image_features):
-        """
-        Function to calculate part of rocchio algorithm
-
-        Parameters
-        ----------
-        factor : float
-            Factor to multiply sum with
-        image_features : list
-            List of Features of the relevant images. (List of lists)
-        Returns
-        -------
-        result : float
-            The bias calculaed from factor, normalizaion and list items
-        """
-        # Sum up all sublist element-wise
-        sum_of_vectors = [sum(x) for x in zip(*image_features)]
-
-        # multiply each element with factor and with the amount of images 
-        rocchio_subelement = [ (factor * (1/len(image_features)) * x) for x in sum_of_vectors]
-        
-        return rocchio_subelement
 
 if __name__ == "__main__":
     while(True):
