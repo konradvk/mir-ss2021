@@ -240,7 +240,7 @@ class Query:
 
 
 
-    def relevance_feedback(self, selected_images, not_selected_images, limit):
+    def relevance_feedback(self, selected_images, not_selected_images, limit=10):
         """
         Function to start a relevance feedback query.
         Parameters
@@ -257,15 +257,21 @@ class Query:
             List with the 'limit' first elements of the 'results' list. 
         """
 
-        # get relavent and non_revant feature vectors
+        # get relevant and non_revant feature vectors
+        features_relevant = self.get_feature_vector(selected_images)
+        features_not_relevant = self.get_feature_vector(not_selected_images)
 
         # rocchio
-
-        # run new query
+        new_rocchio_features = self.rocchio(self.features, features_relevant, features_not_relevant)
 
         # update the current features , so repeated "relavance feedback" has an effect
+        self.features = new_rocchio_features
+        self.limit = limit
 
+        # run new query
         # return our (limited) results
+        return self.run()
+
 
     def get_feature_vector(self, image_names):
         """
@@ -279,9 +285,25 @@ class Query:
         - features : list
             List with of features.
         """
+        all_feature_dict = {}
+        # open the index file for reading
+        with open(self.output_name) as f:
+            # initialize the CSV reader
+            reader = csv.reader(f)
 
-            
-    def rocchio(original_query, relevant, non_relevant, a = 1, b = 0.8, c = 0.1):
+            # loop over the rows in the index
+            for row in reader:
+                # Split path into section, take NUMBER.png and delete last 4 chars (which will be .png)
+                im_name = os.path.split(row[0])[-1][:-4]
+                # add to dictionary; Key: file name, Item: feature list
+                all_feature_dict[im_name] = [float(x) for x in row[1:]]
+        f.close()
+
+        # Return a list of feature lists. Each list corresponding to a image name given
+        return [all_feature_dict[x] for x in image_names]
+
+
+    def rocchio(self, original_query, relevant, non_relevant, a = 1, b = 0.8, c = 0.1):
         """
         Function to adapt features with rocchio approach.
 
@@ -302,8 +324,16 @@ class Query:
         Returns
         -------
         - features : list
-            List with of features.
+            List with (new query) features.
         """
+        # Compute the mean vector from list of vectors
+        relevant_mean = np.mean(relevant, axis=0)
+        non_relevant_mean = np.mean(non_relevant, axis=0)
+
+        # Rocchio parameters
+        new_query = (a * original_query) + (b * relevant_mean) - (c * non_relevant_mean)
+        
+        return new_query
 
 
 if __name__ == "__main__":
@@ -315,3 +345,16 @@ if __name__ == "__main__":
         print("correct_prediction_dictionary:")
         print(correct_prediction_dictionary)
         query.visualize_result(query_result, correct_prediction_dictionary)
+
+        # Static relevant and not_relevant implementation
+        temp_image_names = list(correct_prediction_dictionary.keys())
+        first_four = temp_image_names[:4]
+        last_six = temp_image_names[4:]
+
+        # Relevance Feedback
+        new_query_result = query.relevance_feedback(selected_images=first_four, not_selected_images=last_six)
+        new_correct_prediction_dictionary = query.check_code(new_query_result)
+        print("NEW correct_prediction_dictionary:")
+        print(new_correct_prediction_dictionary)
+        query.visualize_result(new_query_result, new_correct_prediction_dictionary)
+
