@@ -7,8 +7,8 @@ from query import Query
 app = Flask(__name__)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-app.config['UPLOAD_FOLDER'] = 'static/uploads'
-app.config['IMAGE_DB'] = 'static/img_db'
+app.config['UPLOAD_FOLDER'] = 'static' + os.sep + 'uploads'
+app.config['IMAGE_DB'] = 'static' + os.sep + 'img_db'
 
 '''
 Tutorial help: https://www.tutorialspoint.com/flask/flask_file_uploading.html
@@ -27,13 +27,13 @@ def select_query_image():
 
     if request.method == 'POST':
         f = request.files['file']
-        f.save(os.path.join(app.config['UPLOAD_FOLDER'], f.filename))
+        f.save(app.config['UPLOAD_FOLDER'] + os.sep + f.filename)
 
-        query = Query(query_image_name=os.path.join(app.config['IMAGE_DB'], f.filename))
+        query = Query(query_image_name=app.config['IMAGE_DB'] + os.sep + f.filename)
         query_result = query.run()
         correct_prediction_dictionary = query.check_code(query_result)
         for tup in query_result:
-            ret_img_pathes.append(app.config['IMAGE_DB'] + "/" + tup[1].split("/")[-1])
+            ret_img_pathes.append(app.config['IMAGE_DB'] + os.sep + tup[1].split(os.sep)[-1])
 
         print("Retrieved images: ", query_result)
         print("correct_prediction_dictionary:")

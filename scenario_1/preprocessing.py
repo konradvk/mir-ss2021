@@ -24,7 +24,7 @@ import os
 # Output argument:
 #   - [list] image_paths: list of image paths (strings)
 #######################################################################################################################
-def get_images_paths(image_directory = Path("../../dataset/test/"), file_extensions = ["*.png", "*.jpg"]):
+def get_images_paths(image_directory = Path('static/img_db'), file_extensions = ["*.png", "*.jpg"]):
     image_paths = []
     for ending in file_extensions:
         full_path = os.path.join(image_directory, ending)
