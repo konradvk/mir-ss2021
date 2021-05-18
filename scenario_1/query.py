@@ -35,9 +35,9 @@ def get_filename_from_path(path_to_file, file_ending = '.png'):
     return filename
 
 class Query:
-    output_name = "index.csv"
+    output_name = "static/index.csv"
     code_path = "codes.csv"
-    image_directory = str(Path("../../dataset/test/"))
+    image_directory = str(Path("../static/images/database/"))
     
     #######################################################################################################################
 	# Function __init__(self, query_image_name = None):

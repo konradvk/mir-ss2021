@@ -24,7 +24,7 @@ import os
 # Output argument:
 #   - [list] image_paths: list of image paths (strings)
 #######################################################################################################################
-def get_images_paths(image_directory = Path("../../dataset/test/"), file_extensions = ["*.png", "*.jpg"]):
+def get_images_paths(image_directory = Path("static/images/database/"), file_extensions = ["*.png", "*.jpg"]):
     image_paths = []
     for ending in file_extensions:
         full_path = os.path.join(image_directory, ending)
@@ -76,7 +76,7 @@ def create_feature_list(image_paths):
 # Output argument:
 #
 #######################################################################################################################
-def write_to_file(feature_list, image_paths, output_name = "index.csv"):
+def write_to_file(feature_list, image_paths, output_name = "static/index.csv"):
     
     assert len(feature_list) == len(image_paths)
     output = open(output_name, "w+")

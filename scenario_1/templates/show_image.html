@@ -10,7 +10,9 @@
 </head>
 
 <body>
-  <img src={{ url_for('static', filename=uploaded_image) }} >
+  {% for img_src in ret_img_ls %}
+        <img src={{img_src}}>
+    {% endfor %}
 </body>
 
 </html>
