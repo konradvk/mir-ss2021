@@ -1,0 +1,1 @@
+Folder for selected images and uploads

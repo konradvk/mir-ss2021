@@ -1,0 +1,61 @@
+{% extends "main_page.html" %}
+{% block body %}
+<div class="container" style="margin-top:10px">
+  <!-- Left info bar -->
+  <div class="row">
+    <div class="col-sm-2">
+      <h3>Overview</h3>
+      <!--<p>Optional info here.</p>-->
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          <a class="nav-link active">Select image</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled">Query results</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Settings</a>
+        </li>
+      </ul>
+      <hr class="d-sm-none">
+    </div>
+
+    <div class="col-sm-9">
+      <h1 class="page-header">Input image</h1>
+      
+      <!--<h5>Choose an input image... [more details]</h5> -->
+      {% if selected_image != None %}
+      <img src="{{url_for('static', filename='images/query/'+ selected_image)}}" width="500" height="500">
+      {% else %}
+      <img src="{{url_for('static', filename='images/empty.png')}}" width="500" height="500">
+      {% endif %}
+      <p>Select an image via the file picker and press upload. Afterwards you can retrieve similar images.</p>
+
+      <div class="row">
+        <div class="col">
+          <form id="upload-form" action="{{ url_for('select_query_image') }}" method="POST"
+            enctype="multipart/form-data">
+            <input class="button" id="file-picker" type="file" name="file" accept="image/*" multiple>
+            <button type="submit" class="btn btn-primary" onclick="activate_spinner(this)">Upload!</button>
+          </form>
+        </div>
+        <div class="col">
+          <form id="upload-form" action="{{ url_for('start_query') }}" method="POST" enctype="multipart/form-data">
+            {% if selected_image != None %}
+            <button type="submit" class="btn btn-primary" onclick="activate_spinner(this)">Retrieve similar</button>
+            {% else %}
+            <button type="submit" class="btn btn-primary" onclick="activate_spinner(this)" disabled>Retrieve
+              similar</button>
+            {% endif %}
+          </form>
+        </div>
+        <div class="col">
+          <form id="upload-form" action="{{ url_for('recalc_index') }}" method="POST">
+            <button type="submit" class="btn btn-primary" onclick="activate_spinner(this)">Recalculate index</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
