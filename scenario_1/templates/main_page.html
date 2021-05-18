@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Medical information retrieval</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+    var all_images = [];
+    var selected_images = [];
+    var not_selected_images = [];
+
+    function activate_spinner(element) {
+      element.innerHTML = "<span class=\"spinner-border spinner-border-sm\"></span> Loading..."
+    }
+
+  </script>
+
+  <style>
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top banner -->
+  <div class="jumbotron text-center" style="height: 220px;margin-bottom:0">
+    <div class="row">
+      <div class="col-sm-3">
+        <img src="{{url_for('static', filename='images/retrieval_logo.png')}}" width="150" height="150">
+      </div>
+
+      <div class="col-sm-6">
+        <h1>Medical Information Retrieval (MIR)</h1>
+      </div>
+      <div class="col-sm-3">
+        <img src="{{url_for('static', filename='images/uni_logo.png')}}" width="400" height="150">
+      </div>
+    </div>
+  </div>
+  <!-- Main part -->
+  {% block body %}{% endblock %}
+  </div>
+</body>
+
+</html>

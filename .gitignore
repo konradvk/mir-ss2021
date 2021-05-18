@@ -513,3 +513,7 @@ get_path.py
 
 # ignore index file
 /scenario_1/index.csv
+
+# ignore static data:
+/scenario_1/static/images/query/*
+/scenario_1/static/images/database/*
