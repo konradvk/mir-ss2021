@@ -24,6 +24,9 @@
       <h1 class="page-header">Input image</h1>
 
       <!-- TODO: for -->
+      {% for img_src in ret_img_ls %}
+        <img src={{img_src}}>
+      {% endfor %}
 
 
       <div style="height: 200px"></div>
