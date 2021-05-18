@@ -1,0 +1,71 @@
+{% extends "main_page.html" %}
+{% block body %}
+<div class="container" style="margin-top:10px">
+  <!-- Left info bar -->
+  <div class="row">
+    <div class="col-sm-2">
+      <h3>Overview</h3>
+      <!--<p>Optional info here.</p>-->
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('index') }}">Select image</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Query results</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Settings</a>
+        </li>
+      </ul>
+      <hr class="d-sm-none">
+    </div>
+
+    <div class="col-sm-9">
+      <h1 class="page-header">Input image</h1>
+
+      <!-- TODO: for -->
+
+
+      <div style="height: 200px"></div>
+      <div class="text-center" style="text-align:center">
+        <form id="add_new_page" action="{{ url_for('new_page') }}" method="POST" enctype="multipart/form-data">
+          <button type="submit" class="btn btn-primary" id="load_more" onclick="activate_spinner(this)"
+            style="visibility:hidden">Load more...</button>
+        </form>
+      </div>
+      <div style="height: 50px"></div>
+    </div>
+    <div class="col-">
+      <div class="text-right" style="position: fixed">
+        <button type="submit" class="btn btn-primary" id="relevance_feedback"
+          onclick="activate_spinner(this);relevance_feedback()" style="visibility:hidden">Relevance feedback!</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+<script>
+  // function to select/deselect images
+  function click_on_image(element) {
+
+    // TODO:
+  }
+
+  function relevance_feedback() {
+    fetch('/relevance_feedback', {
+
+      // TODO:
+    });
+  }
+
+  // function which is called when you're at the bottom of the page
+  window.onscroll = function (ev) {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      // TODO: show button to load more images
+    }
+  };
+</script>
+
+</html>
+{% endblock %}

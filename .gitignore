@@ -517,3 +517,5 @@ get_path.py
 # ignore static data:
 /scenario_1/static/img_db/*
 /scenario_1/static/uploads/*
+/scenario_1/static/images/query/*
+/scenario_1/static/images/database/*
