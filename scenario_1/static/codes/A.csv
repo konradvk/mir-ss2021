@@ -1,0 +1,623 @@
+0;unspecified
+;
+1;x-ray
+;
+10;unspecified
+;
+11;plain radiography
+;
+110;unspecified
+;
+111;digital
+;
+1110;unspecified
+;
+1111;overview image
+;
+1112;tomography
+;
+1113;high beam energy
+;
+1114;low beam energy
+;
+1115;far view projection
+;
+1116;1:1 projection
+;
+1117;dual energy
+;
+112;analog
+;
+1120;unspecified
+;
+1121;overview image
+;
+1122;tomography
+;
+1123;high beam energy
+;
+1124;low beam energy
+;
+1125;far view projection
+;
+1126;1:1 projection
+;
+113;x-ray stereometry
+;
+114;x-ray stereography
+;
+115;tomosynthesis
+;
+116;xeroradiography
+;
+12;fluoroscopy
+;
+120;unspecified
+;
+121;digital
+;
+122;analog
+;
+13;angiography
+;
+130;unspecified
+;
+131;digital
+;
+1310;unspecified
+;
+1311;subtraction (DSA)
+;
+1312;rotation angiography
+;
+1313;pathfinder technique
+;
+;
+;
+132;analog
+;
+1320;unspecified
+;
+1321;photo subtraction
+;
+14;computed tomography (CT)
+;
+140;unspecified
+;
+141;conventional CT
+;
+1410;unspecified
+;
+1411;low dose
+;
+1412;high resolution
+;
+1413;bolus tracking
+;
+142;quantitative CT
+;
+1420;unspecified
+;
+1421;dual energy
+;
+15;DEXA (quantitative radiography)
+;
+150;unspecified
+;
+151;digital
+;
+1510;unspecified
+;
+1511;dual energy
+;
+16;radiotherapy
+;
+160;unspecified
+;
+161;digital
+;
+162;analog
+;
+2;sonography
+;
+20;unspecified
+;
+21;A-mode
+;
+210;unspecified
+;
+221;3.5 MHz
+;
+212;5.0 MHz
+;
+213;7.5 MHz
+;
+214;10 MHz
+;
+215;variable frequency
+;
+22;B-mode
+;
+220;unspecified
+;
+221;sector scan
+;
+2210;unspecified
+;
+2211;3.5 MHz
+;
+2212;5.0 MHz
+;
+2213;7.5 MHz
+;
+2214;10 MHz
+;
+2215;variable frequency
+;
+222;linear scan
+;
+2220;unspecified
+;
+2221;3.5 MHz
+;
+2222;5.0 MHz
+;
+2223;7.5 MHz
+;
+2224;10 MHz
+;
+2225;variable frequency
+;
+23;M-mode
+;
+230;unspecified
+;
+231;3.5 MHz
+;
+232;5.0 MHz
+;
+233;7.5 MHz
+;
+234;10 MHz
+;
+235;variable frequency
+;
+24;compound mode
+;
+240;unspecified
+;
+241;3.5 MHz
+;
+242;5.0 MHz
+;
+243;7.5 MHz
+;
+244;10 MHz
+;
+245;variable frequency
+;
+25;SieScape mode
+;
+250;unspecified
+;
+251;3.5 MHz
+;
+252;5.0 MHz
+;
+253;7.5 MHz
+;
+254;10 MHz
+;
+255;variable frequency
+;
+26;duplex mode
+;
+260;unspecified
+;
+261;3.5 MHz
+;
+262;5.0 MHz
+;
+263;7.5 MHz
+;
+264;10 MHz
+;
+265;variable frequency
+;
+27;Doppler mode
+;
+270;unspecified
+;
+271;3.5 MHz
+;
+272;5.0 MHz
+;
+273;7.5 MHz
+;
+274;10 MHz
+;
+275;variable frequency
+;
+28;3D imaging
+;
+280;unspecified
+;
+281;3.5 MHz
+;
+282;5.0 MHz
+;
+283;7.5 MHz
+;
+284;10 MHz
+;
+285;variable frequency
+;
+3;magnetic resonance measurements
+;
+30;unspecified
+;
+31;magnetic resonance imaging (MRI)
+;
+310;unspecified
+;
+311;T1-weigthed
+;
+3110;unspecified
+;
+3111;endo coil
+;
+3112;body
+;
+3113;body array
+;
+3114;head coil
+;
+3115;neck coil
+;
+3116;spine coil
+;
+3117;loop coil
+;
+3118;shoulder coil
+;
+3119;knee coil
+;
+311a;hand / small FOV
+;
+311b;mamma coil
+;
+311c;flexible coil, large
+;
+311d;flexible coil, small
+;
+311e;endorectal coil
+;
+311f;wrap around coil
+;
+312;T2-weighted
+;
+3120;unspecified
+;
+3121;endo coil
+;
+3122;body
+;
+3123;body array
+;
+3124;head coil
+;
+3125;neck coil
+;
+3126;spine coil
+;
+3127;loop coil
+;
+3128;shoulder coil
+;
+3129;knee coil
+;
+312a;hand / small FOV
+;
+312b;mamma coil
+;
+312c;flexible coil, large
+;
+312d;flexible coil, small
+;
+312e;endorectal coil
+;
+312f;wrap around coil
+;
+313;proton-weighted
+;
+3130;unspecified
+;
+3131;endo coil
+;
+3132;body
+;
+3133;body array
+;
+3134;head coil
+;
+3135;neck coil
+;
+3136;spine coil
+;
+3137;loop coil
+;
+3138;shoulder coil
+;
+3139;knee coil
+;
+313a;hand / small FOV
+;
+313b;mamma coil
+;
+313c;flexible coil, large
+;
+313d;flexible coil, small
+;
+313e;endorectal coil
+;
+313f;wrap around coil
+;
+314;fat suppression
+;
+3140;unspecified
+;
+3141;endo coil
+;
+3142;body
+;
+3143;body array
+;
+3144;head coil
+;
+3145;neck coil
+;
+3146;spine coil
+;
+3147;loop coil
+;
+3148;shoulder coil
+;
+3149;knee coil
+;
+314a;hand / small FOV
+;
+314b;mamma coil
+;
+314c;flexible coil, large
+;
+314d;flexible coil, small
+;
+314e;endorectal coil
+;
+314f;wrap around coil
+;
+315;Cine-Lolo
+;
+3150;unspecified
+;
+3151;endo coil
+;
+3152;body
+;
+3153;body array
+;
+3154;head coil
+;
+3155;neck coil
+;
+3156;spine coil
+;
+3157;loop coil
+;
+3158;shoulder coil
+;
+3159;knee coil
+;
+315a;hand / small FOV
+;
+315b;mamma coil
+;
+315c;flexible coil, large
+;
+315d;flexible coil, small
+;
+315e;endorectal coil
+;
+315f;wrap around coil
+;
+316;inversion recovery
+;
+3160;unspecified
+;
+3161;endo coil
+;
+3162;body
+;
+3163;body array
+;
+3164;head coil
+;
+3165;neck coil
+;
+3166;spine coil
+;
+3167;loop coil
+;
+3168;shoulder coil
+;
+3169;knee coil
+;
+316a;hand / small FOV
+;
+316b;mamma coil
+;
+316c;flexible coil, large
+;
+316d;flexible coil, small
+;
+316e;endorectal coil
+;
+316f;wrap around coil
+;
+317;FLARE
+;
+3170;unspecified
+;
+3171;endo coil
+;
+3172;body
+;
+3173;body array
+;
+3174;head coil
+;
+3175;neck coil
+;
+3176;spine coil
+;
+3177;loop coil
+;
+3178;shoulder coil
+;
+3179;knee coil
+;
+317a;hand / small FOV
+;
+317b;mamma coil
+;
+317c;flexible coil, large
+;
+317d;flexible coil, small
+;
+317e;endorectal coil
+;
+317f;wrap around coil
+;
+318;3D-FFE high resolution
+;
+3180;unspecified
+;
+3181;endo coil
+;
+3182;body
+;
+3183;body array
+;
+3184;head coil
+;
+3185;neck coil
+;
+3186;spine coil
+;
+3187;loop coil
+;
+3188;shoulder coil
+;
+3189;knee coil
+;
+318a;hand / small FOV
+;
+318b;mamma coil
+;
+318c;flexible coil, large
+;
+318d;flexible coil, small
+;
+318e;endorectal coil
+;
+318f;wrap around coil
+;
+32;spectroscopy
+;
+4;nuclear medicine
+;
+40;unspecified
+;
+41;scintillation probe
+;
+42;gamma camera
+;
+43;single photon emission
+;
+computed;tomography (SPECT)
+;
+44;positron emission tomography (PET)
+;
+5;optical imaging
+;
+50;unspecified
+;
+51;endoscopy
+;
+52;microscopy
+;
+53;photography
+;
+54;funduscopy
+;
+55;laser surface scan
+;
+56;thermography
+;
+6;biophysical procedures
+;
+60;unspecified
+;
+61;electric
+;
+62;magnetic
+;
+63;probes
+;
+7;others
+;
+70;unspecified
+;
+71;workstation
+;
+72;hardcopy
+;
+73;secondary capture
+;
+74;documentation
+;
+740;unspecified
+;
+741;value
+;
+742;curve local
+;
+743;curve temporal
+;
+744;area complex (3D)
+;
+745;picture
+;
+746;local series
+;
+747;temporal series
+;
+748;complex series (4D)
+;
+749;cine documentation
+;
+74a;fluoroscopy
+;
+74b;volume (data set)
+;
+74c;volume temporal (data set)
+;
+8;secondary digitalization
+;
+80;unspecified
+;
+81;laser sampling
+;
+82;LCD sampling
+;
+83;video digitizin
