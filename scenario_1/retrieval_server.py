@@ -42,7 +42,7 @@ def select_query_image():
     global selected_image
     selected_image = secure_filename(f.filename)
 
-    return render_template("start.html", selected_image= selected_image)
+    return render_template("start.html", selected_image=selected_image)
 
 @app.route("/query_result", methods=['POST'])
 def start_query():
