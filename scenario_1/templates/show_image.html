@@ -5,16 +5,33 @@
   <title>Medical information retrieval</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <style>
+
+    body{
+      text-align: center;
+    }
+
+    img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 30%;
+      margin-bottom: 5px;
+      margin-top: 5px;
+    }
+
+
   </style>
 </head>
 
 <body>
-  <h2> Query image: </h2>
-  <p> {{ image }}</p>
-  <img src="{{ image }}" alt="Query image" />
-  
-  <!-- <img src="data:image/png,{{image}}"> -->
+<h1>Retrieved Images:</h1>
+
+  {% for img_src in ret_img_ls %}
+        <img src={{img_src}}>
+    {% endfor %}
+
 </body>
 
 </html>
