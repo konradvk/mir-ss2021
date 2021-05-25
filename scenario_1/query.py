@@ -4,7 +4,7 @@ import cv2
 from feature_extractor import FeatureExtractor
 #from searcher import Searcher
 from searcher import Searcher
-import easygui
+# import easygui
 from pathlib import Path
 import os
 import csv
@@ -37,7 +37,7 @@ def get_filename_from_path(path_to_file, file_ending = '.png'):
 class Query:
     output_name = "index.csv"
     code_path = "codes.csv"
-    image_directory = str(Path("../../dataset/test/"))
+    image_directory = str(Path("static/img_db"))
     
     #######################################################################################################################
 	# Function __init__(self, query_image_name = None):
@@ -62,7 +62,8 @@ class Query:
 	#######################################################################################################################
     def set_image_name(self, query_image_name = None):
         if query_image_name is None:
-            query_image_name = easygui.fileopenbox(default = self.image_directory, filetypes = ["*.png"])
+            # query_image_name = easygui.fileopenbox(default = self.image_directory, filetypes = ["*.png"])
+            print("No Image set")
         self.query_image_name = query_image_name
         self.query_image = cv2.imread(query_image_name, cv2.IMREAD_GRAYSCALE)
         self.calculate_features()
@@ -344,7 +345,7 @@ if __name__ == "__main__":
         correct_prediction_dictionary = query.check_code(query_result)
         print("correct_prediction_dictionary:")
         print(correct_prediction_dictionary)
-        query.visualize_result(query_result, correct_prediction_dictionary)
+        # query.visualize_result(query_result, correct_prediction_dictionary)
 
         # Static relevant and not_relevant implementation
         temp_image_names = list(correct_prediction_dictionary.keys())
