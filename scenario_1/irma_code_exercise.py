@@ -1,7 +1,8 @@
 import csv
 import os
+from os.path import join
 
-def csv_to_dict(file_path):
+def csv_to_dict(file_path, delimiter):
     """
     Function to read in a csv file and create a dict based on the first two columns.
 
@@ -21,8 +22,20 @@ def csv_to_dict(file_path):
     - For each row, add an entry to a dict (first column is key, second column is value)
     - Return the dict
     """
-    pass
-    
+    csv_dict = {}
+    with open(file_path) as f:
+        # initialize the CSV reader
+        reader = csv.reader(f, delimiter=delimiter)
+
+        # loop over the rows in the csv file
+        for row in reader:
+            # exclude empty rows and rows with single semicolons
+            if row and row[0] is not '':
+                # add to dictionary; Key: first column, Item: second column
+                csv_dict[row[0]] = row[1]
+    f.close()
+    return csv_dict
+
 class IRMA:
     """
     Class to retrieve the IRMA code and information for a given file.
@@ -30,7 +43,7 @@ class IRMA:
     labels_long = ["Technical code for imaging modality", "Directional code for imaging orientation", "Anatomical code for body region examined", "Biological code for system examined"]
     labels_short = ["Imaging modality", "Imaging orientation", "Body region", "System"]
 
-    def __init__(self, dir_path= "irma_data/"):
+    def __init__(self, dir_path= os.path.join("static", "codes")):
         """
         Constructor of an IRMA element.
 
@@ -45,7 +58,14 @@ class IRMA:
         - Save the dicts (list) as class variable
         - Save "image_codes.csv" as dict in a class variable
         """
-        pass
+        
+        self.codes_dict = csv_to_dict(join(dir_path, 'codes.csv'), delimiter=',')
+        A_dict = csv_to_dict(join(dir_path, 'A.csv'), delimiter=';')
+        B_dict = csv_to_dict(join(dir_path, 'B.csv'), delimiter=';')
+        C_dict = csv_to_dict(join(dir_path, 'C.csv'), delimiter=';')
+        D_dict = csv_to_dict(join(dir_path, 'D.csv'), delimiter=';')
+
+        self.irma_parts = [A_dict, B_dict, C_dict, D_dict]
 
 
     def get_irma(self, image_names):
@@ -68,7 +88,9 @@ class IRMA:
         - Use self.image_dict to convert names to codes. ('None' if no associated code can be found)
         - Return the list of codes
         """
-        pass
+        image_names = [x[:-4] for x in image_names]
+        return [self.codes_dict[x] if x in self.codes_dict else None for x in image_names]
+
 
     def decode_as_dict(self, code):
         """
@@ -89,7 +111,18 @@ class IRMA:
         - Possible solution: {'Imaging modality': ['x-ray', 'plain radiography', 'analog', 'overview image'], ...}
         - Solution can look different
         """
-        pass
+        # Split code into its 4 parts 
+        split_codes = code.split('-')
+        decoded = {}
+        for i,category in enumerate(self.labels_short):
+            # get code part for the current category
+            current_code = split_codes[i]
+            # Search all substrings of the current code in the respective category-dictionary (only include if found in dictionary)
+            description = [self.irma_parts[i][current_code[:end+1]] for end,_ in enumerate(current_code) if current_code[:end+1] in self.irma_parts[i]]
+            # description = [ current_code[:end+1] for end,_ in enumerate(current_code)]
+            decoded[category] = description
+
+        return decoded
 
     def decode_as_str(self, code):
         """
@@ -111,10 +144,19 @@ class IRMA:
         - Possible solution: ['Imaging modality: x-ray, plain radiography, analog, overview image', 'Imaging orientation: coronal, anteroposterior (AP, coronal), supine', 'Body region: abdomen, unspecified', 'System: uropoietic system, unspecified']
         - Solution can look different -> FLASK will use this representation to visualize the information on the webpage.
         """
-        pass
+        # get dictionary of code entries
+        decoded_dict = self.decode_as_dict(code)
+        decoded = []
+        for key, values in decoded_dict.items():
+            # first element is the key, join the values with an ',' as delimiter
+            category_string = key + ': ' + ', '.join(values)
+            decoded.append(category_string)
+
+        return decoded
 
 if __name__ == '__main__':
-    image_names = ["1880.png"]
+    image_names = ["1880.png", "3403.png"]
+    # image_names = ["3403.png"]
 
     irma = IRMA()
 
@@ -122,9 +164,12 @@ if __name__ == '__main__':
     print("Codes: ", codes)
 
     if codes is not None:
-        code = codes[0]
-        print("Dict: \n{}\n\n".format(irma.decode_as_dict(code)))
-        print("String: \n{}\n\n".format(irma.decode_as_str(code)))
+        for code in codes:
+            if code is None:
+                print('No matching IRMA code was found for this image!')
+            else:
+                print("Dict: \n{}\n\n".format(irma.decode_as_dict(code)))
+                print("String: \n{}\n\n".format(irma.decode_as_str(code)))
 
     '''
     Result could look like this:
