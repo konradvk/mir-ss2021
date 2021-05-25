@@ -15,7 +15,7 @@ feedback_result = None
 selected_image = None
 app = Flask(__name__)
 
-# query = Query(path_to_index= "static/index.csv")
+# query = Query(path_to_index= "static/codes/index.csv")
 
 elements_per_page = 10
 page= 1
@@ -42,7 +42,7 @@ def select_query_image():
         global selected_image
         selected_image = f.filename
 
-    return render_template("start.html", selected_image=f.filename)
+    return render_template("start.html", selected_image=selected_image)
 
 
 @app.route("/query_result", methods=['POST'])
@@ -66,20 +66,19 @@ def start_query():
     return visualize_query(ret_img_pathes)  # vorher übergeben query_results
 
 def visualize_query(query_result):
-    # TODO:
 
     # return render_template("query_result.html",
     #    zipped_input=zip([selected_image], input_code, input_info),
     #  zipped_results= zip(image_names, image_distances, image_codes, irma_infos))
 
-    return render_template('show_image.html', ret_img_ls=query_result)
+    return render_template('query_result.html', ret_img_ls=query_result)
 
 @app.route("/recalc", methods=['POST'])
 def recalc_index():
 
     # TODO:
 
-    return render_template("start.html", selected_image= selected_image)
+    return render_template("start.html", selected_image=selected_image)
 
 @app.route("/new_page", methods=['POST'])
 def new_page():

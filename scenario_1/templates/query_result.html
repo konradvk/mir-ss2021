@@ -24,8 +24,24 @@
       <h1 class="page-header">Input image</h1>
 
       <!-- TODO: for -->
+      <div class="img_container">
+        <img src={{ret_img_ls[0]}} >
+        <div class="img_info">
+          <h3 > info</h3>
+        </div>
+      </div>
+
+      <h1 > Query Results</h1>
       {% for img_src in ret_img_ls %}
-        <img src={{img_src}}>
+        <!-- {% if loop.index > 0 %} -->
+          <section class="img_container">
+            <img src={{img_src}} >
+            <div class="img_info">
+                <h3 > Features Distance: </h3>
+                <p> untertitel</p>
+            </div>
+          </section>
+        <!-- {% endif %} -->
       {% endfor %}
 
 
