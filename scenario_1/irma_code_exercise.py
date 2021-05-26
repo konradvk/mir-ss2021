@@ -119,6 +119,7 @@ class IRMA:
             current_code = split_codes[i]
             # Search all substrings of the current code in the respective category-dictionary (only include if found in dictionary)
             description = [self.irma_parts[i][current_code[:end+1]] for end,_ in enumerate(current_code) if current_code[:end+1] in self.irma_parts[i]]
+            # description = [self.irma_parts[i][current_code[:end]] for end in range(1,5) if current_code[:end] in self.irma_parts[i]]
             # description = [ current_code[:end+1] for end,_ in enumerate(current_code)]
             decoded[category] = description
 
