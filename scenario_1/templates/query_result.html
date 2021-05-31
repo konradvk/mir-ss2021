@@ -25,20 +25,31 @@
 
       <!-- TODO: for -->
       <div class="img_container">
-        <img src={{ret_img_ls[0]}} >
+        <img src={{img_infos[0][0]}} >
         <div class="img_info">
-          <h3 > info</h3>
+          <p> <b>Image Name:</b> {{img_infos[0][2][0]}}</p>
+          <p> <b>Features Distance:</b>  {{img_infos[0][1]}}</p>
+          <p> <b>IRMA Code:</b> {{img_infos[0][2][1]}}</p>
+
+          <p> <b>Info: </b> </p>
+          <p> {{img_infos[0][2][2]}}</p>
         </div>
       </div>
 
       <h1 > Query Results</h1>
-      {% for img_src in ret_img_ls %}
+      {% for img_info in img_infos %}
         <!-- {% if loop.index > 0 %} -->
           <section class="img_container">
-            <img src={{img_src}} >
+            <img src={{img_info[0]}} >
             <div class="img_info">
-                <h3 > Features Distance: </h3>
-                <p> untertitel</p>
+
+                <p> <b>Image Name:</b> {{img_info[2][0]}}</p>
+                <p> <b>Features Distance:</b>  {{img_info[1]}}</p>
+                <p> <b>IRMA Code:</b> {{img_info[2][1]}}</p>
+
+                <p> <b>Info: </b> </p>
+                <p> {{img_info[2][2]}}</p>
+
             </div>
           </section>
         <!-- {% endif %} -->

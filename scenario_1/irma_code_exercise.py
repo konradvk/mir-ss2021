@@ -155,6 +155,31 @@ class IRMA:
 
         return decoded
 
+
+def get_img_info(img_names):
+    """
+    Method to encapsulate the functionality of the irma class
+    Parameters
+    ----------
+    img_names: list of images for which the irma modalities are needed
+
+    Returns
+    -------
+    list of lists with the the img_name, irma_code, modalities as string)
+    """
+    irma = IRMA()
+
+    irma_data_list = []
+
+    for img_name in img_names:
+        code = irma.get_irma([img_name])
+        if code is not None:
+            sub_list = [img_name, code[0], irma.decode_as_str(code[0])[0]]
+            irma_data_list.append(sub_list)
+
+    return irma_data_list
+
+
 if __name__ == '__main__':
     image_names = ["1880.png", "3403.png"]
     # image_names = ["3403.png"]

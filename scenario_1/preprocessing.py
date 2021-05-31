@@ -90,10 +90,13 @@ def write_to_file(feature_list, image_paths, output_name = "index.csv"):
     output.close()
 
 
-
-if __name__ == '__main__':
+def build_index():
     image_paths = get_images_paths()
 
-    features  = create_feature_list(image_paths)
+    features = create_feature_list(image_paths)
 
     write_to_file(features, image_paths)
+
+
+if __name__ == '__main__':
+    build_index()

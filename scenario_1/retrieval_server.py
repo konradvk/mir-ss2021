@@ -1,8 +1,9 @@
 import os
 from flask import Flask, render_template, request
 
-#from preprocessing import preprocessing_main
 from query import Query
+from preprocessing import build_index
+from irma_code_exercise import get_img_info
 
 """
 This is the main file to run the medical information retrieval server.
@@ -49,34 +50,51 @@ def select_query_image():
 def start_query():
 
     # TODO:
-    ret_img_pathes = []
+    #ret_img_pathes = []
 
     query = Query(query_image_name=app.config['IMAGE_DB'] + os.sep + selected_image)
     query_result = query.run()
     correct_prediction_dictionary = query.check_code(query_result)
-    for tup in query_result:
-        ret_img_pathes.append(app.config['IMAGE_DB'] + os.sep + tup[1].split(os.sep)[-1])
+    #for tup in query_result:
+    #    ret_img_pathes.append(app.config['IMAGE_DB'] + os.sep + tup[1].split(os.sep)[-1])
 
     print("Retrieved images: ", query_result)
     print("correct_prediction_dictionary:")
     print(correct_prediction_dictionary)
 
-
-
-    return visualize_query(ret_img_pathes)  # vorher übergeben query_results
+    #return visualize_query(ret_img_pathes)  # vorher übergeben query_results
+    return visualize_query(query_result)
 
 def visualize_query(query_result):
+
+    ret_img_names = []
+    ret_img_pathes = []
+    ret_img_distances = []
+
+    for tupel in query_result:
+        ret_img_names.append(tupel[1].split(os.sep)[-1])
+        ret_img_pathes.append(app.config['IMAGE_DB'] + os.sep + tupel[1].split(os.sep)[-1])
+        ret_img_distances.append(tupel[0])
+
+    ret_img_info = get_img_info(ret_img_names)
+
+    ret_img_and_info = []
+
+    for i in range(len(ret_img_names)):
+        ret_img_and_info.append([ret_img_pathes[i], ret_img_distances[i], ret_img_info[i]])
 
     # return render_template("query_result.html",
     #    zipped_input=zip([selected_image], input_code, input_info),
     #  zipped_results= zip(image_names, image_distances, image_codes, irma_infos))
 
-    return render_template('query_result.html', ret_img_ls=query_result)
+    return render_template('query_result.html', img_infos=ret_img_and_info)
 
 @app.route("/recalc", methods=['POST'])
 def recalc_index():
 
     # TODO:
+    build_index()
+
 
     return render_template("start.html", selected_image=selected_image)
 
