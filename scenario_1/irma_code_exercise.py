@@ -174,7 +174,7 @@ def get_img_info(img_names):
     for img_name in img_names:
         code = irma.get_irma([img_name])
         if code is not None:
-            sub_list = [img_name, code[0], irma.decode_as_str(code[0])[0]]
+            sub_list = [img_name, code[0], irma.decode_as_str(code[0])]
             irma_data_list.append(sub_list)
 
     return irma_data_list
