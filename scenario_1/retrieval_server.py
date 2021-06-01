@@ -72,7 +72,7 @@ def visualize_query(query_result):
     for (distance, img_path) in query_result:
         ret_img_names.append(img_path.split(os.sep)[-1])
         ret_img_pathes.append(app.config['IMAGE_DB'] + os.sep + img_path.split(os.sep)[-1])
-        ret_img_distances.append(distance)
+        ret_img_distances.append(round(distance,2))
 
     ret_img_info = get_img_info(ret_img_names)
 
