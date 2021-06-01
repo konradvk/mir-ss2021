@@ -24,6 +24,39 @@
       <h1 class="page-header">Input image</h1>
 
       <!-- TODO: for -->
+      <div class="img_container">
+        <img src={{img_infos[0][0]}} >
+        <div class="img_info">
+          <p> <b>Image Name:</b> {{img_infos[0][2][0]}}</p>
+          <p> <b>IRMA Code:</b> {{img_infos[0][2][1]}}</p>
+
+          <p> <b>Info: </b> </p>
+          {% for info in img_infos[0][2][2] %}
+            <p> {{info}}</p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <h1 > Query Results</h1>
+      {% for img_info in img_infos %}
+        <!-- {% if loop.index > 0 %} -->
+          <section class="img_container">
+            <img src={{img_info[0]}} >
+            <div class="img_info">
+
+                <p> <b>Image Name:</b> {{img_info[2][0]}}</p>
+                <p> <b>Features Distance:</b>  {{img_info[1]}}</p>
+                <p> <b>IRMA Code:</b> {{img_info[2][1]}}</p>
+
+                <p> <b>Info: </b> </p>
+                {% for info in img_info[2][2] %}
+                  <p> {{info}}</p>
+                {% endfor %}
+
+            </div>
+          </section>
+        <!-- {% endif %} -->
+      {% endfor %}
 
 
       <div style="height: 200px"></div>

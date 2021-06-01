@@ -25,9 +25,9 @@
       
       <!--<h5>Choose an input image... [more details]</h5> -->
       {% if selected_image != None %}
-      <img src="{{url_for('static', filename='images/query/'+ selected_image)}}" width="500" height="500">
+      <img src="{{url_for('static', filename='uploads/'+ selected_image)}}" width="500" height="500">
       {% else %}
-      <img src="{{url_for('static', filename='images/empty.png')}}" width="500" height="500">
+      <img src="{{url_for('static', filename='empty.png')}}" width="500" height="500">
       {% endif %}
       <p>Select an image via the file picker and press upload. Afterwards you can retrieve similar images.</p>
 
