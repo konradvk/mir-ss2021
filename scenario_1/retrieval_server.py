@@ -69,7 +69,7 @@ def visualize_query(query_result):
     global selected_image
 
     input_info =    [   app.config['IMAGE_DB'] + os.sep + selected_image,
-                        irma.get_irma([selected_image])[0],
+                        irma.get_irma([selected_image][0]),
                         irma.decode_as_str(irma.get_irma([selected_image])[0])
                     ]
     image_names, image_distances, image_codes, irma_infos = [],[],[],[]
