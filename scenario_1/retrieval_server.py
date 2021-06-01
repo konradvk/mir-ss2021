@@ -55,8 +55,6 @@ def start_query():
     query = Query(query_image_name=app.config['IMAGE_DB'] + os.sep + selected_image)
     query_result = query.run()
     correct_prediction_dictionary = query.check_code(query_result)
-    #for tup in query_result:
-    #    ret_img_pathes.append(app.config['IMAGE_DB'] + os.sep + tup[1].split(os.sep)[-1])
 
     print("Retrieved images: ", query_result)
     print("correct_prediction_dictionary:")
@@ -71,10 +69,10 @@ def visualize_query(query_result):
     ret_img_pathes = []
     ret_img_distances = []
 
-    for tupel in query_result:
-        ret_img_names.append(tupel[1].split(os.sep)[-1])
-        ret_img_pathes.append(app.config['IMAGE_DB'] + os.sep + tupel[1].split(os.sep)[-1])
-        ret_img_distances.append(tupel[0])
+    for (distance, img_path) in query_result:
+        ret_img_names.append(img_path.split(os.sep)[-1])
+        ret_img_pathes.append(app.config['IMAGE_DB'] + os.sep + img_path.split(os.sep)[-1])
+        ret_img_distances.append(distance)
 
     ret_img_info = get_img_info(ret_img_names)
 
@@ -83,9 +81,6 @@ def visualize_query(query_result):
     for i in range(len(ret_img_names)):
         ret_img_and_info.append([ret_img_pathes[i], ret_img_distances[i], ret_img_info[i]])
 
-    # return render_template("query_result.html",
-    #    zipped_input=zip([selected_image], input_code, input_info),
-    #  zipped_results= zip(image_names, image_distances, image_codes, irma_infos))
 
     return render_template('query_result.html', img_infos=ret_img_and_info)
 
