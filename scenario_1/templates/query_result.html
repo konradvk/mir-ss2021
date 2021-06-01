@@ -23,17 +23,23 @@
     <div class="col-sm-9">
       <h1 class="page-header">Input image</h1>
 
-      <!-- TODO: for -->
+      
       <div class="img_container">
-        <img src={{ret_img_ls[0]}} >
-        <div class="img_info">
-          <h3 > info</h3>
-        </div>
+        <!-- {% for img_path, code, decoded in zipped_input %} -->
+          <p>{{input_info[0]}}</p>
+          <img src={{input_info[0]}} >
+          <div class="img_info">
+            <p > IRMA: {{input_info[1]}}</p>
+            {% for irma_part in input_info[2] %}
+              <p > {{irma_part}}</p>
+            {% endfor %}
+          </div>
+        <!-- {% endfor %} -->
       </div>
 
       <h1 > Query Results</h1>
-      {% for img_src in ret_img_ls %}
-        <!-- {% if loop.index > 0 %} -->
+      <!-- {% for img_src in ret_img_ls %}
+        {% if loop.index > 0 %}
           <section class="img_container">
             <img src={{img_src}} >
             <div class="img_info">
@@ -41,8 +47,8 @@
                 <p> untertitel</p>
             </div>
           </section>
-        <!-- {% endif %} -->
-      {% endfor %}
+        {% endif %}
+      {% endfor %} -->
 
 
       <div style="height: 200px"></div>

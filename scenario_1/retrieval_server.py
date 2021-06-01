@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, request
-
+from irma_code_exercise import IRMA
 #from preprocessing import preprocessing_main
 from query import Query
 
@@ -54,24 +54,41 @@ def start_query():
     query = Query(query_image_name=app.config['IMAGE_DB'] + os.sep + selected_image)
     query_result = query.run()
     correct_prediction_dictionary = query.check_code(query_result)
-    for tup in query_result:
-        ret_img_pathes.append(app.config['IMAGE_DB'] + os.sep + tup[1].split(os.sep)[-1])
+    # for tup in query_result:
+    #     ret_img_pathes.append(app.config['IMAGE_DB'] + os.sep + tup[1].split(os.sep)[-1])
 
     print("Retrieved images: ", query_result)
     print("correct_prediction_dictionary:")
     print(correct_prediction_dictionary)
 
-
-
-    return visualize_query(ret_img_pathes)  # vorher übergeben query_results
+    # return visualize_query(ret_img_pathes)  # vorher übergeben query_results
+    return visualize_query(query_result)
 
 def visualize_query(query_result):
+    irma = IRMA()
+    global selected_image
 
-    # return render_template("query_result.html",
-    #    zipped_input=zip([selected_image], input_code, input_info),
-    #  zipped_results= zip(image_names, image_distances, image_codes, irma_infos))
+    input_info =    [   app.config['IMAGE_DB'] + os.sep + selected_image,
+                        irma.get_irma([selected_image])[0],
+                        irma.decode_as_str(irma.get_irma([selected_image])[0])
+                    ]
+    image_names, image_distances, image_codes, irma_infos = [],[],[],[]
+    for (distance, img_path) in query_result:
+        img_name = img_path.split(os.sep)[-1]
+        image_names.append(img_path)
+        image_distances.append(distance)
+        image_codes.append(irma.get_irma([img_name])[0])
+        irma_infos.append(irma.decode_as_str(irma.get_irma([img_name])[0]))
 
-    return render_template('query_result.html', ret_img_ls=query_result)
+    results_info = [image_names, image_distances, image_codes, irma_infos]
+
+    # return render_template('query_result.html', ret_img_ls=query_result)
+
+
+    return render_template("query_result.html",
+        input_info=input_info,
+        results_info=results_info)
+
 
 @app.route("/recalc", methods=['POST'])
 def recalc_index():
