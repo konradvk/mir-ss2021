@@ -1,0 +1,84 @@
+0;unspecified
+1;coronal
+10;unspecified
+11;posteroanterior (PA)
+110;unspecified
+111;inspiration
+112;expiration
+113;valsalva
+114;phonation
+115;upright
+116;sitting
+117;supine
+118;prone
+119;lateral decubitus
+11a;flexion, left
+11b;flexion, right
+11c;swallow
+11d;micturition
+11e;bending
+12;anteroposterior (AP, coronal)
+120;unspecified
+121;inspiration
+122;expiration
+123;valsalva
+124;phonation
+125;upright
+126;sitting
+127;supine
+128;prone
+129;lateral decubitus
+12a;flexion, left
+12b;flexion, right
+12c;swallow
+12d;micturition
+12e;bending
+2;sagittal
+20;unspecified
+21;lateral, right-left
+210;unspecified
+211;inspiration
+212;expiration
+213;valsalva
+214;Hitzenberg maneuver
+215;upright
+216;supine
+217;prone
+218;inclination
+219;reclination
+21a;swallow
+21b;defaecation
+21c;micturition
+22;lateral, left-right
+220;unspecified
+221;inspiration
+222;expiration
+223;valsalva
+224;Hitzenberg maneuver
+225;upright
+226;supine
+227;prone
+228;inclination
+229;reclination
+22a;swallow
+22b;defaecation
+22c;micturition
+23;mediolateral
+24;lateromedial
+3;axial
+30;unspecified
+31;craniocaudal
+32;caudocranial (transversal, axial)
+4;other orientation
+40;unspecified
+41;oblique
+42;occipitofrontal
+43;occipitomental
+44;bregmaticooccipital
+45;submentobregmatical
+46;submentobregmaticofrontal
+47;bregmaticooral
+48;bregmaticosubmental
+49;right anterior oblique (RAO)
+4a;left anterior oblique (LAO)
+5;RSA / ap and lateral (simultaneously

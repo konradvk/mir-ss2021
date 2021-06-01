@@ -24,7 +24,7 @@ import os
 # Output argument:
 #   - [list] image_paths: list of image paths (strings)
 #######################################################################################################################
-def get_images_paths(image_directory = Path("static/images/database/"), file_extensions = ["*.png", "*.jpg"]):
+def get_images_paths(image_directory = Path('static/img_db'), file_extensions = ["*.png", "*.jpg"]):
     image_paths = []
     for ending in file_extensions:
         full_path = os.path.join(image_directory, ending)
@@ -90,10 +90,13 @@ def write_to_file(feature_list, image_paths, output_name = "static/index.csv"):
     output.close()
 
 
-
-if __name__ == '__main__':
+def build_index():
     image_paths = get_images_paths()
 
-    features  = create_feature_list(image_paths)
+    features = create_feature_list(image_paths)
 
     write_to_file(features, image_paths)
+
+
+if __name__ == '__main__':
+    build_index()
