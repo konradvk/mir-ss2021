@@ -41,7 +41,7 @@
       {% for img_info in img_infos %}
         <!-- {% if loop.index > 0 %} -->
           <section class="img_container">
-            <img src={{img_info[0]}} >
+            <img src={{img_info[0]}} onclick="click_on_image(this)" >
             <div class="img_info">
 
                 <p> <b>Image Name:</b> {{img_info[2][0]}}</p>
@@ -79,10 +79,21 @@
 </body>
 
 <script>
+  var selected_img = []
   // function to select/deselect images
-  function click_on_image(element) {
+  function click_on_image(el) {
+    var link = el.src;
+    var img_name = link.substring(link.lastIndexOf("/") + 1);
 
-    // TODO:
+    if (!selected_img.includes(img_name)){
+      selected_img.push(img_name);
+      el.style.border = "3px solid blue";
+    }else{
+      selected_img = arrayRemove(selected_img, img_name)
+      el.style.border = "3px solid white";
+    }
+
+  console.log(selected_img);
   }
 
   function relevance_feedback() {
@@ -98,6 +109,13 @@
       // TODO: show button to load more images
     }
   };
+
+  function arrayRemove(arr, value) {
+   return arr.filter(function(ele){
+       return ele != value;
+   });
+  }
+
 </script>
 
 </html>
