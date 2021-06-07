@@ -1,5 +1,6 @@
 import os
 from flask import Flask, render_template, request
+from werkzeug.utils import secure_filename
 
 from query import Query
 from preprocessing import build_index
@@ -14,6 +15,8 @@ The following dataset can be used to retrieve similar images: https://publicatio
 
 feedback_result = None
 selected_image = None
+selected_image_path = None
+
 app = Flask(__name__)
 
 # query = Query(path_to_index= "static/codes/index.csv")
@@ -48,6 +51,7 @@ def select_query_image():
 
 @app.route("/query_result", methods=['POST'])
 def start_query():
+    ret_img_pathes = []
 
     # TODO:
     #ret_img_pathes = []
@@ -62,6 +66,8 @@ def start_query():
 
     #return visualize_query(ret_img_pathes)  # vorher übergeben query_results
     return visualize_query(query_result)
+
+    return visualize_query(ret_img_pathes)
 
 def visualize_query(query_result):
 
