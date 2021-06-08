@@ -25,26 +25,34 @@
 
       
       <div class="img_container">
-        <!-- {% for img_path, code, decoded in zipped_input %} -->
-          <p>{{input_info[0]}}</p>
-          <img src={{input_info[0]}} >
-          <div class="img_info">
-            <p > IRMA: {{input_info[1]}}</p>
-            {% for irma_part in input_info[2] %}
-              <p > {{irma_part}}</p>
-            {% endfor %}
-          </div>
-        <!-- {% endfor %} -->
+        <img src={{img_infos[0][0]}} >
+        <div class="img_info">
+          <p> <b>Image Name:</b> {{img_infos[0][2][0]}}</p>
+          <p> <b>IRMA Code:</b> {{img_infos[0][2][1]}}</p>
+
+          <p> <b>Info: </b> </p>
+          {% for info in img_infos[0][2][2] %}
+            <p> {{info}}</p>
+          {% endfor %}
+        </div>
       </div>
 
       <h1 > Query Results</h1>
-      <!-- {% for img_src in ret_img_ls %}
-        {% if loop.index > 0 %}
+      {% for img_info in img_infos %}
+        <!-- {% if loop.index > 0 %} -->
           <section class="img_container">
-            <img src={{img_src}} >
+            <img class="query_img" src={{img_info[0]}} onclick="click_on_image(this)" >
             <div class="img_info">
-                <h3 > Features Distance: </h3>
-                <p> untertitel</p>
+
+                <p> <b>Image Name:</b> {{img_info[2][0]}}</p>
+                <p> <b>Features Distance:</b>  {{img_info[1]}}</p>
+                <p> <b>IRMA Code:</b> {{img_info[2][1]}}</p>
+
+                <p> <b>Info: </b> </p>
+                {% for info in img_info[2][2] %}
+                  <p> {{info}}</p>
+                {% endfor %}
+
             </div>
           </section>
         {% endif %}
@@ -63,7 +71,7 @@
     <div class="col-">
       <div class="text-right" style="position: fixed">
         <button type="submit" class="btn btn-primary" id="relevance_feedback"
-          onclick="activate_spinner(this);relevance_feedback()" style="visibility:hidden">Relevance feedback!</button>
+          onclick="activate_spinner(this);relevance_feedback()" style="">Relevance feedback!</button>
       </div>
     </div>
   </div>
@@ -71,17 +79,62 @@
 </body>
 
 <script>
+  var selected_img = []
   // function to select/deselect images
-  function click_on_image(element) {
+  function click_on_image(el) {
+    var link = el.src;
+    var img_name = link.substring(link.lastIndexOf("/") + 1);
 
-    // TODO:
+    if (!selected_img.includes(img_name)){
+      selected_img.push(img_name);
+      el.style.border = "3px solid blue";
+    }else{
+      selected_img = arrayRemove(selected_img, img_name)
+      el.style.border = "3px solid white";
+    }
+
+  console.log(selected_img);
   }
 
   function relevance_feedback() {
+
+    let non_relevant = build_non_relevant_arr(selected_img);
+    let data = [selected_img, non_relevant]
+
     fetch('/relevance_feedback', {
 
-      // TODO:
-    });
+      method: 'POST',
+      mode: 'cors',
+      redirect: 'follow',
+      headers:  {
+        'Content-Type': 'application/json'
+        },
+      body: JSON.stringify(data)
+
+    })
+    .then(function(response) {
+    if (response.status !== 200) {
+      console.log(`Looks like there was a problem. Status code: ${response.status}`);
+      return;
+    }
+    window.location.href = "/relevance_feedback";
+    })  
+  }
+
+  function build_non_relevant_arr(relevant_arr) {
+    non_rel_img = []
+    html_ls = document.getElementsByClassName("query_img");
+    for(let i = 0; i < html_ls.length; i++) {
+      let e = html_ls.item(i).src
+      let img_name = e.substring(e.lastIndexOf("/") + 1)
+      if(!relevant_arr.includes(img_name) )  {
+        non_rel_img.push(img_name)
+      }
+    }
+
+    console.log(non_rel_img);
+    return non_rel_img
+
   }
 
   // function which is called when you're at the bottom of the page
@@ -90,6 +143,13 @@
       // TODO: show button to load more images
     }
   };
+
+  function arrayRemove(arr, value) {
+   return arr.filter(function(ele){
+       return ele != value;
+   });
+  }
+
 </script>
 
 </html>

@@ -512,7 +512,7 @@ fabric.properties
 get_path.py
 
 # ignore index file
-/scenario_1/index.csv
+/scenario_1/static/index.csv
 
 # ignore static data:
 /scenario_1/static/img_db/*.png
