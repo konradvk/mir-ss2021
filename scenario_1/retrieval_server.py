@@ -138,28 +138,8 @@ def relevance_feedback():
 
     if request.method == 'GET':
         print('here')
-        return visualize_query2(feedback_result)
+        return visualize_query(feedback_result)
 
-
-def visualize_query2(query_result):
-
-    ret_img_names = []
-    ret_img_pathes = []
-    ret_img_distances = []
-
-    for (distance, img_path) in query_result:
-        ret_img_names.append(img_path.split(os.sep)[-1])
-        ret_img_pathes.append(app.config['IMAGE_DB'] + os.sep + img_path.split(os.sep)[-1])
-        ret_img_distances.append(round(distance, 2))
-
-    ret_img_info = get_img_info(ret_img_names)
-
-    ret_img_and_info = []
-
-    for i in range(len(ret_img_names)):
-        ret_img_and_info.append([ret_img_pathes[i], ret_img_distances[i], ret_img_info[i]])
-
-    return render_template('query_result.html', img_infos=ret_img_and_info)
 
 
 if __name__ == "__main__":
