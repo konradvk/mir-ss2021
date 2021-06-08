@@ -105,12 +105,14 @@
 
       method: 'POST',
       mode: 'cors',
+      redirect: 'follow',
       headers:  {
         'Content-Type': 'application/json'
         },
       body: JSON.stringify(data)
 
     });
+
   }
   function build_non_relevant_arr(relevant_arr) {
     non_rel_img = []

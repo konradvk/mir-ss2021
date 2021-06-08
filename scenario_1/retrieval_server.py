@@ -18,7 +18,6 @@ feedback_result = None
 selected_image = None
 selected_image_path = None
 query = None
-feeback_result = None
 
 
 app = Flask(__name__)
@@ -82,7 +81,7 @@ def visualize_query(query_result):
     for (distance, img_path) in query_result:
         ret_img_names.append(img_path.split(os.sep)[-1])
         ret_img_pathes.append(app.config['IMAGE_DB'] + os.sep + img_path.split(os.sep)[-1])
-        ret_img_distances.append(round(distance,2))
+        ret_img_distances.append(round(distance, 2))
 
     ret_img_info = get_img_info(ret_img_names)
 
@@ -109,9 +108,10 @@ def new_page():
 
     return start_query()
 
+
 @app.route('/relevance_feedback', methods=['POST', 'GET'])
 def relevance_feedback():
-    global feeback_result
+    global feedback_result
 
     # POST request
     if request.method == 'POST':
@@ -129,16 +129,38 @@ def relevance_feedback():
 
         global query
         #query = Query(query_image_name=app.config['IMAGE_DB'] + os.sep + selected_image)
-        feeback_result = query.relevance_feedback(relevant, non_relevant)
-        correct_prediction_dictionary = query.check_code(feeback_result)
-        print(correct_prediction_dictionary)
+        feedback_result = query.relevance_feedback(relevant, non_relevant)
+        correct_prediction_dictionary = query.check_code(feedback_result)
+        print("Retrieved images: ", feedback_result)
 
         return redirect('/relevance_feedback')
-
+        # return visualize_query(feedback_result)
 
     if request.method == 'GET':
         print('here')
-        return visualize_query(feeback_result)
+        return visualize_query2(feedback_result)
+
+
+def visualize_query2(query_result):
+
+    ret_img_names = []
+    ret_img_pathes = []
+    ret_img_distances = []
+
+    for (distance, img_path) in query_result:
+        ret_img_names.append(img_path.split(os.sep)[-1])
+        ret_img_pathes.append(app.config['IMAGE_DB'] + os.sep + img_path.split(os.sep)[-1])
+        ret_img_distances.append(round(distance, 2))
+
+    ret_img_info = get_img_info(ret_img_names)
+
+    ret_img_and_info = []
+
+    for i in range(len(ret_img_names)):
+        ret_img_and_info.append([ret_img_pathes[i], ret_img_distances[i], ret_img_info[i]])
+
+    return render_template('query_result.html', img_infos=ret_img_and_info)
+
 
 if __name__ == "__main__":
     app.run(port=4555, debug=True)
