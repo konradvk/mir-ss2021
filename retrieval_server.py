@@ -1,10 +1,11 @@
 import os
+from os.path import join
 from flask import Flask, render_template, request, redirect
 from werkzeug.utils import secure_filename
 
 from query import Query
 from preprocessing import build_index
-from irma_code_exercise import get_img_info
+from irma_code import get_img_info
 
 
 """
@@ -28,8 +29,10 @@ elements_per_page = 10
 page= 1
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-app.config['UPLOAD_FOLDER'] = 'static' + os.sep + 'uploads'
-app.config['IMAGE_DB'] = 'static' + os.sep + 'img_db'
+app.config['UPLOAD_FOLDER'] = join('static', 'uploads')
+# app.config['UPLOAD_FOLDER'] = 'static' + os.sep + 'uploads'
+app.config['IMAGE_DB'] = join('static', 'img_db')
+# app.config['IMAGE_DB'] = 'static' + os.sep + 'img_db'
 
 
 @app.route("/")
@@ -43,7 +46,7 @@ def select_query_image():
     # TODO:
     if request.method == 'POST':
         f = request.files['file']
-        new_path = app.config['UPLOAD_FOLDER'] + os.sep + f.filename
+        new_path = join(app.config['UPLOAD_FOLDER'],  f.filename)
         f.save(new_path)
 
         global selected_image
@@ -59,7 +62,7 @@ def start_query():
     # TODO:
     #ret_img_pathes = []
     global query
-    query = Query(query_image_name=app.config['IMAGE_DB'] + os.sep + selected_image)
+    query = Query(query_image_name= join(app.config['IMAGE_DB'], selected_image))
     query_result = query.run()
     correct_prediction_dictionary = query.check_code(query_result)
 
