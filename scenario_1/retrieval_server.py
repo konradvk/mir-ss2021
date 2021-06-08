@@ -1,10 +1,11 @@
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from werkzeug.utils import secure_filename
 
 from query import Query
 from preprocessing import build_index
 from irma_code_exercise import get_img_info
+
 
 """
 This is the main file to run the medical information retrieval server.
@@ -16,6 +17,9 @@ The following dataset can be used to retrieve similar images: https://publicatio
 feedback_result = None
 selected_image = None
 selected_image_path = None
+query = None
+feeback_result = None
+
 
 app = Flask(__name__)
 
@@ -32,7 +36,7 @@ app.config['IMAGE_DB'] = 'static' + os.sep + 'img_db'
 @app.route("/")
 def index():
     global selected_image
-    return render_template("start.html", selected_image= selected_image)
+    return render_template("start.html", selected_image=selected_image)
 
 
 @app.route("/selected_image", methods=['POST'])
@@ -55,12 +59,10 @@ def start_query():
 
     # TODO:
     #ret_img_pathes = []
-
+    global query
     query = Query(query_image_name=app.config['IMAGE_DB'] + os.sep + selected_image)
     query_result = query.run()
     correct_prediction_dictionary = query.check_code(query_result)
-    #for tup in query_result:
-    #    ret_img_pathes.append(app.config['IMAGE_DB'] + os.sep + tup[1].split(os.sep)[-1])
 
     print("Retrieved images: ", query_result)
     print("correct_prediction_dictionary:")
@@ -69,7 +71,7 @@ def start_query():
     #return visualize_query(ret_img_pathes)  # vorher übergeben query_results
     return visualize_query(query_result)
 
-    return visualize_query(ret_img_pathes)
+    #return visualize_query(ret_img_pathes)
 
 def visualize_query(query_result):
 
@@ -77,10 +79,10 @@ def visualize_query(query_result):
     ret_img_pathes = []
     ret_img_distances = []
 
-    for tupel in query_result:
-        ret_img_names.append(tupel[1].split(os.sep)[-1])
-        ret_img_pathes.append(app.config['IMAGE_DB'] + os.sep + tupel[1].split(os.sep)[-1])
-        ret_img_distances.append(tupel[0])
+    for (distance, img_path) in query_result:
+        ret_img_names.append(img_path.split(os.sep)[-1])
+        ret_img_pathes.append(app.config['IMAGE_DB'] + os.sep + img_path.split(os.sep)[-1])
+        ret_img_distances.append(round(distance,2))
 
     ret_img_info = get_img_info(ret_img_names)
 
@@ -89,9 +91,6 @@ def visualize_query(query_result):
     for i in range(len(ret_img_names)):
         ret_img_and_info.append([ret_img_pathes[i], ret_img_distances[i], ret_img_info[i]])
 
-    # return render_template("query_result.html",
-    #    zipped_input=zip([selected_image], input_code, input_info),
-    #  zipped_results= zip(image_names, image_distances, image_codes, irma_infos))
 
     return render_template('query_result.html', img_infos=ret_img_and_info)
 
@@ -118,10 +117,27 @@ def relevance_feedback():
     if request.method == 'POST':
 
         # TODO:
-        pass
+        print(request.is_json)
+        print(request.get_json())
+
+        relevant = request.get_json()[0]
+        non_relevant = request.get_json()[1]
+
+        relevant = [e.replace(".png", "") for e in relevant]
+        non_relevant = [e.replace(".png", "") for e in non_relevant]
+
+
+        global query
+        #query = Query(query_image_name=app.config['IMAGE_DB'] + os.sep + selected_image)
+        feeback_result = query.relevance_feedback(relevant, non_relevant)
+        correct_prediction_dictionary = query.check_code(feeback_result)
+        print(correct_prediction_dictionary)
+
+        return redirect('/relevance_feedback')
 
 
     if request.method == 'GET':
+        print('here')
         return visualize_query(feeback_result)
 
 if __name__ == "__main__":

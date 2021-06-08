@@ -41,7 +41,7 @@
       {% for img_info in img_infos %}
         <!-- {% if loop.index > 0 %} -->
           <section class="img_container">
-            <img src={{img_info[0]}} onclick="click_on_image(this)" >
+            <img class="query_img" src={{img_info[0]}} onclick="click_on_image(this)" >
             <div class="img_info">
 
                 <p> <b>Image Name:</b> {{img_info[2][0]}}</p>
@@ -71,7 +71,7 @@
     <div class="col-">
       <div class="text-right" style="position: fixed">
         <button type="submit" class="btn btn-primary" id="relevance_feedback"
-          onclick="activate_spinner(this);relevance_feedback()" style="visibility:hidden">Relevance feedback!</button>
+          onclick="activate_spinner(this);relevance_feedback()" style="">Relevance feedback!</button>
       </div>
     </div>
   </div>
@@ -99,10 +99,35 @@
   }
 
   function relevance_feedback() {
+
+    let non_relevant = build_non_relevant_arr(selected_img);
+    let data = [selected_img, non_relevant]
+
     fetch('/relevance_feedback', {
 
-      // TODO:
+      method: 'POST',
+      mode: 'cors',
+      headers:  {
+        'Content-Type': 'application/json'
+        },
+      body: JSON.stringify(data)
+
     });
+  }
+  function build_non_relevant_arr(relevant_arr) {
+    non_rel_img = []
+    html_ls = document.getElementsByClassName("query_img");
+    for(let i = 0; i < html_ls.length; i++) {
+      let e = html_ls.item(i).src
+      let img_name = e.substring(e.lastIndexOf("/") + 1)
+      if(!relevant_arr.includes(img_name) )  {
+        non_rel_img.push(img_name)
+      }
+    }
+
+    console.log(non_rel_img);
+    return non_rel_img
+
   }
 
   // function which is called when you're at the bottom of the page
