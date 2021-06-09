@@ -20,12 +20,12 @@ class FeatureExtractor:
 		# TODO: You can change your extraction method
 		
 		#features = self.image_pixels(image)
-		features = self.histogram(image)
-		#features = self.thumbnail_features(image)
-		#features = self.extract_features_spatial(image)
+		# features = self.histogram(image)
+		features = self.thumbnail_features(image)
+		# features = self.extract_features_spatial(image)
 		
 		# TODO: You can even extend features with another method
-		#features.extend(self.histogram(image))
+		features.extend(self.histogram(image))
 		features.extend(self.thumbnail_features(image))
 
 		return features
