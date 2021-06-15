@@ -325,9 +325,9 @@ class Query:
         - features : list
             List with (new query) features.
         """
-        # Compute the mean vector from list of vectors
-        relevant_mean = np.mean(relevant, axis=0)
-        non_relevant_mean = np.mean(non_relevant, axis=0)
+        # Compute the mean vector from list of vectors, set to zero if empty
+        relevant_mean = np.mean(relevant, axis=0) if relevant else np.array(0)
+        non_relevant_mean = np.mean(non_relevant, axis=0) if non_relevant else np.array(0)
 
         # Rocchio parameters
         new_query = (a * original_query) + (b * relevant_mean) - (c * non_relevant_mean)

@@ -20,13 +20,14 @@ class FeatureExtractor:
 		# TODO: You can change your extraction method
 		
 		#features = self.image_pixels(image)
-		# features = self.histogram(image)
-		features = self.thumbnail_features(image)
+		features = self.histogram(image)
+		# features = self.thumbnail_features(image)
 		# features = self.extract_features_spatial(image)
 		
 		# TODO: You can even extend features with another method
-		features.extend(self.histogram(image))
+		# features.extend(self.histogram(image))
 		features.extend(self.thumbnail_features(image))
+		features.extend(self.extract_features_spatial(image))
 
 		return features
 	
@@ -123,6 +124,7 @@ class FeatureExtractor:
 
 				output_list.append(roi_list)
 
+		output_list = [item for sublist in output_list for item in sublist]
 		return output_list
 
 	#######################################################################################################################
