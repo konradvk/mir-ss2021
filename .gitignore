@@ -508,16 +508,10 @@ fabric.properties
 # For Falco
 .DS_Store
 
-# everyone's individual paths
-get_path.py
-
-# ignore index file
-/scenario_1/static/index.csv
-
 # ignore static data:
-/scenario_1/static/img_db/*.png
-/scenario_1/static/uploads/*.png
+/static/img_db/*.png
+/static/uploads/*.png
 
 # index files
-/scenario_1/index.csv
-/scenario_1/static/index.csv
+/index.csv
+/static/index.csv

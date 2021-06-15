@@ -23,39 +23,38 @@
     <div class="col-sm-9">
       <h1 class="page-header">Input image</h1>
 
-      <!-- TODO: for -->
+      <!-- Displaying the input image and its information -->
       <div class="img_container">
-        <img src={{img_infos[0][0]}} >
+        <img src={{input_info[0]}} >
         <div class="img_info">
-          <p> <b>Image Name:</b> {{img_infos[0][2][0]}}</p>
-          <p> <b>IRMA Code:</b> {{img_infos[0][2][1]}}</p>
+          <p> <b>Image Name:</b> {{input_info[1][0]}}</p>
+          <p> <b>IRMA Code:</b> {{input_info[1][1]}}</p>
 
           <p> <b>Info: </b> </p>
-          {% for info in img_infos[0][2][2] %}
+          {% for info in input_info[1][2] %}
             <p> {{info}}</p>
           {% endfor %}
         </div>
       </div>
 
+      <!-- Displaying the query result and their information -->
       <h1 > Query Results</h1>
-      {% for img_info in img_infos %}
-        <!-- {% if loop.index > 0 %} -->
-          <section class="img_container">
-            <img class="query_img" src={{img_info[0]}} onclick="click_on_image(this)" >
-            <div class="img_info">
+      {% for img_info in query_result_info %}
+        <section class="img_container">
+          <img class="query_img" src={{img_info[0]}} onclick="click_on_image(this)" >
+          <div class="img_info">
 
-                <p> <b>Image Name:</b> {{img_info[2][0]}}</p>
-                <p> <b>Features Distance:</b>  {{img_info[1]}}</p>
-                <p> <b>IRMA Code:</b> {{img_info[2][1]}}</p>
+              <p> <b>Image Name:</b> {{img_info[2][0]}}</p>
+              <p> <b>Features Distance:</b>  {{img_info[1]}}</p>
+              <p> <b>IRMA Code:</b> {{img_info[2][1]}}</p>
 
-                <p> <b>Info: </b> </p>
-                {% for info in img_info[2][2] %}
-                  <p> {{info}}</p>
-                {% endfor %}
+              <p> <b>Info: </b> </p>
+              {% for info in img_info[2][2] %}
+                <p> {{info}}</p>
+              {% endfor %}
 
-            </div>
-          </section>
-        <!-- {% endif %} -->
+          </div>
+        </section>
       {% endfor %}
 
 
@@ -107,13 +106,22 @@
 
       method: 'POST',
       mode: 'cors',
+      redirect: 'follow',
       headers:  {
         'Content-Type': 'application/json'
         },
       body: JSON.stringify(data)
 
-    });
+    })
+    .then(function(response) {
+    if (response.status !== 200) {
+      console.log(`Looks like there was a problem. Status code: ${response.status}`);
+      return;
+    }
+    window.location.href = "/relevance_feedback";
+    })  
   }
+
   function build_non_relevant_arr(relevant_arr) {
     non_rel_img = []
     html_ls = document.getElementsByClassName("query_img");
