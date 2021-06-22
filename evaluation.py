@@ -86,21 +86,51 @@ def average_precision(correct_prediction_list, amount_relevant):
 # Output argument:
 #   - [int] amount
 #######################################################################################################################
-def amount_relevant_images(query_image_code): 
+# def amount_relevant_images(query_image_code): 
 
+#     if not Path(code_path).exists(): 
+#         print("The file in code_path does not exist")
+#         return False
+
+#     with open(code_path) as f:
+#         reader = csv.reader(f)
+#         amount = 0
+
+#         for row in reader:
+#             if row[1] == query_image_code:
+#                 amount += 1
+#     f.close()
+#     return amount
+
+
+def irma_frequency_dict():
+    '''
+        Method to retrieve a dictionary with the amount of an individual IRMA code.
+    -----
+    Returns
+        Dictionary of irma code with their corresponding frequencies
+    '''
     if not Path(code_path).exists(): 
         print("The file in code_path does not exist")
         return False
 
+    # Write all irma codes into a list
+    irm_code_list = []
     with open(code_path) as f:
         reader = csv.reader(f)
-        amount = 0
-
         for row in reader:
-            if row[1] == query_image_code:
-                amount += 1
+            irm_code_list.append(row[1])
     f.close()
-    return amount
+
+    # Go through list, set to one if item not in dictionary yet. Increment if entry already exists
+    dict_irma_frequency = {}
+    for item in irm_code_list:
+        if (item in dict_irma_frequency):
+            dict_irma_frequency[item] += 1
+        else:
+            dict_irma_frequency[item] = 1
+
+    return dict_irma_frequency
 
 
 
@@ -129,12 +159,13 @@ def mean_average_precision(limit = 20):
     # ImageCLEFmed2007_test
     image_paths = get_images_paths(image_directory=os.path.join("static", "img_db"), file_extensions=["*.png"])
 
+    irma_frequencies = irma_frequency_dict()
     res_dic = {}
-    average = 0.0
+    average = []
 
+    
     for i, path in enumerate(image_paths):
-        if(i == limit-1):
-            break
+        if(i == limit): break
 
         query = Query(path)
         query_result = query.run()
@@ -143,11 +174,11 @@ def mean_average_precision(limit = 20):
         true_list = list(res_dic.values())
         true_list.pop(0) # originalbild löschen
 
-        amount = amount_relevant_images(query.query_image_code)
+        amount = irma_frequencies[query.query_image_code]
 
-        average += average_precision(true_list, amount)
+        average.append(average_precision(true_list, amount))
     
-    return (average/limit)
+    return np.mean(average)
 
 
 

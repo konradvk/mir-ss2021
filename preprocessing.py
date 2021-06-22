@@ -6,6 +6,8 @@ import glob
 import sys
 from pathlib import Path
 import os
+from tqdm import tqdm
+
 
 #######################################################################################################################
 # Function get_images_paths(image_directory = "./images/", file_extensions = (".png", ".jpg"))
@@ -50,9 +52,8 @@ def create_feature_list(image_paths):
     feature_extractor = FeatureExtractor()
     feature_list = []
 
-    for i, path in enumerate(image_paths):
+    for path in tqdm(image_paths, desc='Preprocessing: '):
         feature_list.append(feature_extractor.extract(cv2.imread(path,cv2.IMREAD_GRAYSCALE)))
-        print(str(i+1) + " / " + str(len(image_paths)))
 
     return feature_list
 
