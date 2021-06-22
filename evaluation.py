@@ -58,13 +58,13 @@ def precision_at_k(correct_prediction_list, k = None):
 #   - [float] average precision
 #######################################################################################################################
 def average_precision(correct_prediction_list, amount_relevant):
-    precisionAtIndes = 0.0
+    precisionAtIndex = 0.0
     averagePrecision = 0.0
     for i in range(0, len(correct_prediction_list)):
-        precisionAtIndes = precision_at_k(correct_prediction_list, i+1)
+        precisionAtIndex = precision_at_k(correct_prediction_list, i+1)
        
         if(correct_prediction_list[i] == True):
-            averagePrecision += precisionAtIndes
+            averagePrecision += precisionAtIndex
     
     averagePrecision = averagePrecision/amount_relevant
 
@@ -125,17 +125,15 @@ def amount_relevant_images(query_image_code):
 #######################################################################################################################
 def mean_average_precision(limit = 20):
 
-    
-
     # get image paths of all  images
     # ImageCLEFmed2007_test
-    image_paths = get_images_paths(image_directory = Path("static/img_db/"), file_extensions = ["*.png"])
+    image_paths = get_images_paths(image_directory=Path("static/img_db/"), file_extensions=["*.png"])
 
     res_dic = {}
     average = 0.0
 
-    for i,path in enumerate(image_paths):
-        if(i == limit):
+    for i, path in enumerate(image_paths):
+        if(i == limit-1):
             break
 
         query = Query(path)
@@ -147,7 +145,7 @@ def mean_average_precision(limit = 20):
 
         amount = amount_relevant_images(query.query_image_code)
 
-        average += average_precision(true_list,amount)
+        average += average_precision(true_list, amount)
     
     return (average/limit)
 
@@ -155,10 +153,10 @@ def mean_average_precision(limit = 20):
 
 
 if __name__ == "__main__":
-    test = [True, True, False, False]
+    test = [True, True, False, False, True]
     print("P@K: ", precision_at_k(test))
 
     print("AveP: ", average_precision(test, 5))
 
-    result = mean_average_precision(limit = 10)
+    result = mean_average_precision(limit=5)
     print("\nMAP: ", result)
