@@ -69,7 +69,7 @@ def start_query():
 
     print("P@K: ", precision_at_k(correct_prediction_ls))
     print("AveP: ", average_precision(correct_prediction_ls, 5))
-    result_bools = mean_average_precision(limit=4)
+    result_bools = mean_average_precision(limit=10)
     print("\nMAP: ", result_bools)
 
     #return visualize_query(ret_img_pathes)  # vorher übergeben query_results
