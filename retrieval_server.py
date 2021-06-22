@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 from query import Query
 from preprocessing import build_index
 from irma_code import get_img_info
+from evaluation import precision_at_k, average_precision, mean_average_precision
 
 
 """
@@ -63,6 +64,13 @@ def start_query():
     print("Retrieved images: ", query_result)
     print("correct_prediction_dictionary:")
     print(correct_prediction_dictionary)
+
+    correct_prediction_ls = list(correct_prediction_dictionary.values())
+
+    print("P@K: ", precision_at_k(correct_prediction_ls))
+    print("AveP: ", average_precision(correct_prediction_ls, 5))
+    result_bools = mean_average_precision(limit=10)
+    print("\nMAP: ", result_bools)
 
     #return visualize_query(ret_img_pathes)  # vorher übergeben query_results
     return visualize_query(query_result)
