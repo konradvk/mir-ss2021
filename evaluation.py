@@ -5,7 +5,7 @@ import sys
 import numpy as np
 from pathlib import Path
 import csv
-
+import os
 
 code_path = str(Path("static/codes/codes.csv"))
 
@@ -127,7 +127,7 @@ def mean_average_precision(limit = 20):
 
     # get image paths of all  images
     # ImageCLEFmed2007_test
-    image_paths = get_images_paths(image_directory=Path("static/img_db/"), file_extensions=["*.png"])
+    image_paths = get_images_paths(image_directory=os.path.join("static", "img_db"), file_extensions=["*.png"])
 
     res_dic = {}
     average = 0.0
@@ -141,7 +141,7 @@ def mean_average_precision(limit = 20):
         res_dic = query.check_code(query_result)
 
         true_list = list(res_dic.values())
-        true_list.remove(0)
+        true_list.pop(0) # originalbild löschen
 
         amount = amount_relevant_images(query.query_image_code)
 
@@ -154,9 +154,10 @@ def mean_average_precision(limit = 20):
 
 if __name__ == "__main__":
     test = [True, True, False, False, True]
+
     print("P@K: ", precision_at_k(test))
 
     print("AveP: ", average_precision(test, 5))
 
-    result = mean_average_precision(limit=5)
+    result = mean_average_precision(limit=10)
     print("\nMAP: ", result)
