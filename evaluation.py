@@ -167,6 +167,8 @@ def mean_average_precision(limit = 20):
     for i, path in enumerate(image_paths):
         if(i == limit): break
 
+        # Following three lines could be time optimized...
+        # A query object is created for each path and in check_code the codes.csv is read in
         query = Query(path)
         query_result = query.run()
         res_dic = query.check_code(query_result)
