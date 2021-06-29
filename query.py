@@ -41,8 +41,7 @@ class Query:
 	# Function __init__(self, query_image_name = None):
 	# Init function. Just call set_image_name
 	#######################################################################################################################
-    def __init__(self, query_image_name = None, limit = 10):
-        self.limit = limit
+    def __init__(self, query_image_name = None):
         self.image_features = None
         self.set_image_name(query_image_name)
         self.query_image_code = None
@@ -89,7 +88,8 @@ class Query:
     #   Check if "self.query_image" or self.features is None -> return. 
     #   Create a Searcher and run a search
 	#######################################################################################################################
-    def run(self):
+    def run(self, limit=10):
+        self.limit = limit
         # perform the search
         searcher = Searcher(self.output_name)
         results = searcher.search(self.features, self.limit)
@@ -133,6 +133,7 @@ class Query:
                 # add to dictionary; Key: file name, Item: IRMA code
                 codes[row[0]] = row[1]
 
+        self.irma_codes = codes
         # Print unique amount of unique codes
         #print("unique: ", len(set(codes.values())))
 

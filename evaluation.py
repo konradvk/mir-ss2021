@@ -1,11 +1,10 @@
 from preprocessing import get_images_paths
 from query import Query
-import cv2
-import sys
 import numpy as np
 from pathlib import Path
 import csv
 import os
+from tqdm import tqdm
 
 code_path = str(Path("static/codes/codes.csv"))
 
@@ -33,7 +32,7 @@ def precision_at_k(correct_prediction_list, k = None):
         print("k is greater than the length of the prediction list or negative")
         pass
     
-    counter = 0
+    counter = 0.0
 
     for i in range(0, k):
         if correct_prediction_list[i]:
@@ -57,7 +56,10 @@ def precision_at_k(correct_prediction_list, k = None):
 # Output argument:
 #   - [float] average precision
 #######################################################################################################################
-def average_precision(correct_prediction_list, amount_relevant):
+def average_precision(correct_prediction_list, amount_relevant=None):
+    if (amount_relevant == None):
+        amount_relevant = len(correct_prediction_list)
+    
     precisionAtIndex = 0.0
     averagePrecision = 0.0
     for i in range(0, len(correct_prediction_list)):
@@ -153,7 +155,7 @@ def irma_frequency_dict():
 # Output argument:
 #   - [float] mean average precision
 #######################################################################################################################
-def mean_average_precision(limit = 20):
+def mean_average_precision(limit = 10000):
 
     # get image paths of all  images
     # ImageCLEFmed2007_test
@@ -180,21 +182,21 @@ def mean_average_precision(limit = 20):
             # add to dictionary; Key: file name, Item: IRMA code
             codes[row[0]] = row[1]
 
-    res_dic = {}
-    average = []    
-    for i, path in enumerate(image_paths):
-        if(i == limit): break
+    average = []
+    break_counter = 0
+    for path in tqdm(image_paths, desc='MAP calc: '):
+        break_counter += 1
+        if(break_counter == limit): break
 
         # Following three lines could be time optimized...
         # A query object is created for each path and in check_code the codes.csv is read in
         query.set_image_name(path)
         pure_image_name = path.split(os.sep)[-1][:-4]
-        query_result = query.run()
+        query_result = query.run(limit=limit)
 
         # res_dic = query.check_code(query_result)
         # true_list = list(res_dic.values())
         true_list = [codes[pure_image_name]==codes[code.split(os.sep)[-1][:-4]] for (_, code) in query_result]
-
 
         true_list.pop(0) # originalbild löschen
 
@@ -208,11 +210,11 @@ def mean_average_precision(limit = 20):
 
 
 if __name__ == "__main__":
-    test = [True, True, False, False, True]
+    test = [True, True, False, True]
 
     print("P@K: ", precision_at_k(test))
 
-    print("AveP: ", average_precision(test, 5))
+    print("AveP: ", average_precision(test, 3))
 
     result = mean_average_precision(limit=10)
     print("\nMAP: ", result)
