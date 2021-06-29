@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 from query import Query
 from preprocessing import build_index
 from irma_code import get_img_info
-from evaluation import precision_at_k, average_precision, mean_average_precision
+import evaluation as ev
 
 
 """
@@ -67,10 +67,12 @@ def start_query():
 
     correct_prediction_ls = list(correct_prediction_dictionary.values())
 
-    print("P@K: ", precision_at_k(correct_prediction_ls))
-    print("AveP: ", average_precision(correct_prediction_ls, 5))
-    result_bools = mean_average_precision(limit=10)
-    print("\nMAP: ", result_bools)
+    print("P@K: ", ev.precision_at_k(correct_prediction_ls))
+    irma_frequencies = ev.irma_frequency_dict()
+    all_relevant_to_image = irma_frequencies[query.irma_codes[selected_image[:-4]]]
+    print("AveP: ", ev.average_precision(correct_prediction_ls, all_relevant_to_image))
+    # result_bools = ev.mean_average_precision(limit=10)
+    # print("\nMAP: ", result_bools)
 
     #return visualize_query(ret_img_pathes)  # vorher übergeben query_results
     return visualize_query(query_result)
@@ -142,10 +144,8 @@ def relevance_feedback():
         print("Retrieved images: ", feedback_result)
 
         return redirect('/relevance_feedback')
-        # return visualize_query(feedback_result)
 
     if request.method == 'GET':
-        print('here')
         return visualize_query(feedback_result)
 
 
