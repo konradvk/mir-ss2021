@@ -17,17 +17,17 @@ class FeatureExtractor:
 	#   - [list] features: list with extracted features
 	#######################################################################################################################
 	def extract(self, image):
-		# TODO: You can change your extraction method
+		# You can change your extraction method
 		
 		#features = self.image_pixels(image)
-		features = self.histogram(image)
-		# features = self.thumbnail_features(image)
+		# features = self.histogram(image)
+		features = self.thumbnail_features(image)
 		# features = self.extract_features_spatial(image)
 		
-		# TODO: You can even extend features with another method
-		# features.extend(self.histogram(image))
-		features.extend(self.thumbnail_features(image))
+		# You can even extend features with another method
+		features.extend(self.histogram(image))
 		features.extend(self.extract_features_spatial(image))
+		# features.extend(self.thumbnail_features(image))
 
 		return features
 	

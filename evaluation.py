@@ -183,10 +183,7 @@ def mean_average_precision(limit = 10000):
             codes[row[0]] = row[1]
 
     average = []
-    break_counter = 0
     for path in tqdm(image_paths, desc='MAP calc: '):
-        break_counter += 1
-        if(break_counter == limit): break
 
         # Following three lines could be time optimized...
         # A query object is created for each path and in check_code the codes.csv is read in
@@ -217,4 +214,5 @@ if __name__ == "__main__":
     print("AveP: ", average_precision(test, 3))
 
     result = mean_average_precision(limit=10)
+    # result = mean_average_precision()
     print("\nMAP: ", result)

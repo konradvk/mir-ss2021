@@ -71,7 +71,7 @@ class Searcher:
                 # extract features [1:] and convert to float
                 features = [float(x) for x in row[1:]]
 
-                # TODO choose a distance funtion here
+                # choose a distance funtion here
                 distance = self.euclidean_distance(features, queryFeatures)
 
                 # add to dictionary; Key: image_path, Item: distance_value

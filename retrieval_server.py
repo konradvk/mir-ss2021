@@ -14,8 +14,6 @@ This is the main file to run the medical information retrieval server.
 The following dataset can be used to retrieve similar images: https://publications.rwth-aachen.de/record/667228
 """
 
-# database_path = "static/images/database/"
-
 feedback_result = None
 selected_image = None
 query = None
@@ -23,9 +21,6 @@ query = None
 
 app = Flask(__name__)
 
-# query = Query(path_to_index= "static/codes/index.csv")
-
-elements_per_page = 10
 page= 1
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -38,10 +33,14 @@ def index():
     global selected_image
     return render_template("start.html", selected_image=selected_image)
 
+@app.route("/clear")
+def clear():
+    global selected_image
+    selected_image = None
+    return redirect("/")
 
 @app.route("/selected_image", methods=['POST'])
 def select_query_image():
-    # TODO:
     if request.method == 'POST':
         f = request.files['file']
         new_path = join(app.config['UPLOAD_FOLDER'],  f.filename)
@@ -56,25 +55,18 @@ def select_query_image():
 @app.route("/query_result", methods=['POST'])
 def start_query():
 
+    global selected_image
     global query
     query = Query(query_image_name= join(app.config['IMAGE_DB'], selected_image))
     query_result = query.run()
     correct_prediction_dictionary = query.check_code(query_result)
 
-    print("Retrieved images: ", query_result)
-    print("correct_prediction_dictionary:")
-    print(correct_prediction_dictionary)
+    print("\nQuery result:\n", query_result)
+    print("\nCorrect predictions:\n", correct_prediction_dictionary, "\n")
 
     correct_prediction_ls = list(correct_prediction_dictionary.values())
-
     print("P@K: ", ev.precision_at_k(correct_prediction_ls))
-    irma_frequencies = ev.irma_frequency_dict()
-    all_relevant_to_image = irma_frequencies[query.irma_codes[selected_image[:-4]]]
-    print("AveP: ", ev.average_precision(correct_prediction_ls, all_relevant_to_image))
-    # result_bools = ev.mean_average_precision(limit=10)
-    # print("\nMAP: ", result_bools)
 
-    #return visualize_query(ret_img_pathes)  # vorher übergeben query_results
     return visualize_query(query_result)
 
 
@@ -114,8 +106,6 @@ def recalc_index():
 
 @app.route("/new_page", methods=['POST'])
 def new_page():
-    # TODO:
-
     return start_query()
 
 
@@ -126,9 +116,8 @@ def relevance_feedback():
     # POST request
     if request.method == 'POST':
 
-        # TODO:
-        print(request.is_json)
-        print(request.get_json())
+        # print(request.is_json)
+        # print(request.get_json())
 
         relevant = request.get_json()[0]
         non_relevant = request.get_json()[1]
@@ -138,10 +127,13 @@ def relevance_feedback():
 
 
         global query
-        #query = Query(query_image_name=app.config['IMAGE_DB'] + os.sep + selected_image)
         feedback_result = query.relevance_feedback(relevant, non_relevant)
         correct_prediction_dictionary = query.check_code(feedback_result)
-        print("Retrieved images: ", feedback_result)
+
+        print("\nRelevance Feedback result:\n", feedback_result)
+        print("\nCorrect predictions:\n", correct_prediction_dictionary, "\n")
+        correct_prediction_ls = list(correct_prediction_dictionary.values())
+        print("P@K: ", ev.precision_at_k(correct_prediction_ls))
 
         return redirect('/relevance_feedback')
 
