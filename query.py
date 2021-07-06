@@ -7,10 +7,6 @@ from pathlib import Path
 import os
 import csv
 
-
-
-from pdb import set_trace as st
-
 #######################################################################################################################
 # Function get_filename_from_path(self, path_to_file, file_ending = '.png'):
 # Function to retrieve a file name from a file path
@@ -200,7 +196,6 @@ class Query:
         result_image =  cv2.resize(query_image, image_size)
 
         # loop over the results
-        #for (score, path_to_image) in query_result:
         for (_, path_to_image) in query_result:
 
             # load the result image and display it
@@ -227,11 +222,6 @@ class Query:
             new_result = cv2.resize(new_result, image_size)
             # concatenate the images to one
             result_image = np.concatenate((result_image, new_result), axis=1)
-
-        # # calculate average precision
-        # correct_prediction_list = list(correct_prediction_dictionary.values())[1:]
-        # ap = evaluation.average_precision(correct_prediction_list, len(correct_prediction_dictionary) - 1)
-        # print("Average precision: ", ap)
 
         # display the image
         cv2.imshow("Query result", result_image)
