@@ -23,11 +23,13 @@ class FeatureExtractor:
 		# features = self.histogram(image)
 		features = self.thumbnail_features(image)
 		# features = self.extract_features_spatial(image)
+		# features = self.partitionbased_histograms(image)
 		
 		# You can even extend features with another method
-		features.extend(self.histogram(image))
-		features.extend(self.extract_features_spatial(image))
+		# features.extend(self.histogram(image))
+		# features.extend(self.extract_features_spatial(image))
 		# features.extend(self.thumbnail_features(image))
+		# features.extend(self.partitionbased_histograms(image))
 
 		return features
 	
@@ -157,6 +159,7 @@ class FeatureExtractor:
 
 				output_list.append(tmp_list)
 
+		output_list = [item for sublist in output_list for item in sublist]
 		return output_list
 
 	#######################################################################################################################
